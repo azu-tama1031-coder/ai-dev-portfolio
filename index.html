@@ -3,491 +3,562 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Dev Portfolio</title>
+  <title>Bloom with AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:        #06060f;
-      --surface:   #0d0d1f;
-      --surface2:  #12122a;
-      --border:    rgba(120, 100, 255, 0.18);
-      --border-h:  rgba(140, 100, 255, 0.55);
-      --blue:      #4f7fff;
-      --purple:    #8b5cf6;
-      --cyan:      #22d3ee;
-      --grad:      linear-gradient(135deg, #4f7fff 0%, #8b5cf6 100%);
-      --grad-text: linear-gradient(90deg, #7eb3ff 0%, #c084fc 100%);
-      --text:      #e8e8f4;
-      --muted:     #7070a0;
-      --card-bg:   #0e0e22;
-      --glow-b:    rgba(79,127,255,0.35);
-      --glow-p:    rgba(139,92,246,0.35);
+      --ivory:      #f8f5ef;
+      --ivory-dark: #f0ebe0;
+      --ivory-mid:  #e8e0d0;
+      --green:      #2d4a3e;
+      --green-mid:  #3d6455;
+      --green-light:#5a8a72;
+      --green-pale: #eaf2ed;
+      --gold:       #b8975a;
+      --gold-light: #d4b07a;
+      --text:       #2a2a2a;
+      --text-mid:   #5a5a5a;
+      --text-light: #8a8a8a;
+      --white:      #ffffff;
+      --border:     rgba(45,74,62,0.12);
+      --border-h:   rgba(45,74,62,0.3);
+      --shadow:     0 2px 24px rgba(45,74,62,0.08);
+      --shadow-h:   0 12px 48px rgba(45,74,62,0.18);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background: var(--ivory);
       color: var(--text);
-      font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
       overflow-x: hidden;
+      line-height: 1.8;
     }
 
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--ivory-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--green-light); border-radius: 3px; }
 
-    /* ── NAV ── */
+    /* ─── NAV ─── */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 200;
-      height: 58px;
-      background: rgba(6,6,15,0.75);
-      backdrop-filter: blur(16px);
+      height: 64px;
+      background: rgba(248,245,239,0.88);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
-      padding: 0 clamp(16px, 5vw, 48px);
+      padding: 0 clamp(20px,5vw,64px);
     }
-    .logo {
-      font-size: 17px; font-weight: 800; letter-spacing: 0.5px;
-      background: var(--grad-text);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    .logo-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 600; letter-spacing: 1px;
+      color: var(--green);
     }
-    .nav-links { display: flex; gap: clamp(16px, 3vw, 32px); list-style: none; }
+    .logo-sub { font-size: 9px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+
+    .nav-links { display: flex; gap: clamp(20px,3vw,40px); list-style: none; }
     .nav-links a {
-      color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
-      transition: color 0.2s;
-      position: relative;
+      color: var(--text-mid); text-decoration: none;
+      font-size: 12px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase;
+      position: relative; transition: color 0.25s;
     }
     .nav-links a::after {
       content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--grad); transition: width 0.25s;
+      background: var(--gold); transition: width 0.3s ease;
     }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover { color: var(--green); }
     .nav-links a:hover::after { width: 100%; }
 
-    /* ── HAMBURGER (mobile) ── */
+    /* hamburger */
     .hamburger {
-      display: none; flex-direction: column; gap: 5px; cursor: pointer;
-      background: none; border: none; padding: 4px;
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
     }
     .hamburger span {
-      display: block; width: 22px; height: 2px;
-      background: var(--muted); border-radius: 2px; transition: all 0.25s;
+      display: block; width: 22px; height: 1.5px;
+      background: var(--green); border-radius: 2px; transition: all 0.25s;
     }
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
       .hamburger { display: flex; }
       .nav-links {
-        display: none; position: fixed; top: 58px; left: 0; width: 100%;
+        display: none; position: fixed; top: 64px; left: 0; width: 100%;
         flex-direction: column; gap: 0;
-        background: rgba(13,13,31,0.97); border-bottom: 1px solid var(--border);
+        background: rgba(248,245,239,0.98);
+        border-bottom: 1px solid var(--border);
       }
       .nav-links.open { display: flex; }
       .nav-links li { border-bottom: 1px solid var(--border); }
-      .nav-links a { display: block; padding: 16px 24px; font-size: 15px; }
+      .nav-links a { display: block; padding: 18px 28px; font-size: 13px; }
       .nav-links a::after { display: none; }
     }
 
-    /* ── HERO ── */
+    /* ─── HERO ─── */
     #hero {
       min-height: 100svh;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center;
-      padding: clamp(80px,12vw,120px) clamp(20px,5vw,60px) clamp(40px,6vw,80px);
+      display: grid; place-items: center;
+      padding: clamp(80px,12vw,120px) clamp(24px,6vw,80px) clamp(60px,8vw,100px);
       position: relative; overflow: hidden;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(90,138,114,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,151,90,0.07) 0%, transparent 50%),
+        var(--ivory);
     }
-    /* grid lines bg */
+    /* decorative botanical line */
     #hero::before {
       content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(79,127,255,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(79,127,255,0.05) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
-    }
-    /* glow orbs */
-    .orb {
-      position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0;
-    }
-    .orb-1 { width: 480px; height: 480px; background: rgba(79,127,255,0.18); top: -100px; left: -80px; }
-    .orb-2 { width: 400px; height: 400px; background: rgba(139,92,246,0.18); bottom: -80px; right: -60px; }
-
-    .hero-content { position: relative; z-index: 1; }
-
-    .badge-hero {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(79,127,255,0.1);
-      border: 1px solid rgba(79,127,255,0.35);
-      color: #a5c8ff;
-      font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 20px; margin-bottom: 28px;
-    }
-    .badge-hero::before { content: '◆'; font-size: 8px; color: var(--blue); }
-
-    h1 {
-      font-size: clamp(32px, 7vw, 68px);
-      font-weight: 900; line-height: 1.08; margin-bottom: 22px;
-      letter-spacing: -1px;
-    }
-    h1 .gradient-text {
-      background: var(--grad-text);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      display: block;
-    }
-    .hero-sub {
-      font-size: clamp(14px,2.2vw,17px);
-      color: var(--muted); max-width: 500px; line-height: 1.75;
-      margin: 0 auto 36px;
-    }
-    .cta-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .cta {
-      display: inline-block;
-      background: var(--grad);
-      color: white; font-weight: 700; font-size: 14px;
-      padding: 12px 28px; border-radius: 8px;
-      text-decoration: none;
-      box-shadow: 0 0 24px var(--glow-b);
-      transition: box-shadow 0.25s, transform 0.2s;
-    }
-    .cta:hover { box-shadow: 0 0 40px var(--glow-p); transform: translateY(-2px); }
-    .cta-ghost {
-      display: inline-block;
-      border: 1px solid var(--border-h); color: var(--muted);
-      font-weight: 600; font-size: 14px;
-      padding: 12px 28px; border-radius: 8px;
-      text-decoration: none; transition: border-color 0.2s, color 0.2s;
-    }
-    .cta-ghost:hover { border-color: var(--purple); color: var(--text); }
-
-    /* scroll hint */
-    .scroll-hint {
-      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-      color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
-      animation: bounce 2s infinite;
-    }
-    .scroll-hint::after {
-      content: ''; width: 1px; height: 28px;
-      background: linear-gradient(to bottom, var(--purple), transparent);
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateX(-50%) translateY(0); }
-      50%      { transform: translateX(-50%) translateY(6px); }
-    }
-
-    /* ── SECTION COMMON ── */
-    .section-wrap { padding: clamp(60px,8vw,100px) clamp(16px,5vw,48px); }
-    .section-inner { max-width: 1080px; margin: 0 auto; }
-    .section-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      background: var(--grad-text);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      margin-bottom: 8px; display: inline-block;
-    }
-    h2 { font-size: clamp(24px,4vw,36px); font-weight: 800; margin-bottom: 8px; }
-    .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 36px; line-height: 1.6; }
-
-    /* ── TABS ── */
-    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
-    .tab {
-      padding: 7px 18px; border-radius: 20px;
-      border: 1px solid var(--border);
-      background: transparent; color: var(--muted);
-      font-size: 12px; font-weight: 600; cursor: pointer;
-      transition: all 0.2s; white-space: nowrap;
-    }
-    .tab.active {
-      background: var(--grad); border-color: transparent; color: white;
-      box-shadow: 0 0 16px var(--glow-b);
-    }
-    .tab:hover:not(.active) { border-color: var(--border-h); color: var(--text); }
-
-    /* ── CARDS ── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-      gap: 16px;
-    }
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden;
-      cursor: pointer;
-      position: relative;
-      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2),
-                  border-color 0.25s,
-                  box-shadow 0.28s;
-    }
-    /* corner glow line */
-    .card::before {
-      content: '';
-      position: absolute; inset: 0; border-radius: 14px;
-      background: linear-gradient(135deg, rgba(79,127,255,0.12) 0%, rgba(139,92,246,0.06) 100%);
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .card:hover {
-      transform: translateY(-6px) scale(1.02);
-      border-color: var(--border-h);
-      box-shadow:
-        0 0 0 1px rgba(139,92,246,0.2),
-        0 12px 40px rgba(79,127,255,0.18),
-        0 2px 8px rgba(0,0,0,0.5);
-    }
-    .card:hover::before { opacity: 1; }
-
-    .card-img-wrap { position: relative; overflow: hidden; aspect-ratio: 16/10; }
-    .card img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform 0.4s ease;
-    }
-    .card:hover img { transform: scale(1.04); }
-    /* scan line overlay */
-    .card-img-wrap::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.06) 2px,
-        rgba(0,0,0,0.06) 4px
-      );
+      position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+      width: 280px; height: 560px;
+      background:
+        radial-gradient(ellipse 30px 80px at 50% 20%, rgba(90,138,114,0.15) 0%, transparent 100%),
+        radial-gradient(ellipse 20px 60px at 70% 55%, rgba(90,138,114,0.12) 0%, transparent 100%),
+        radial-gradient(ellipse 25px 70px at 30% 80%, rgba(90,138,114,0.1) 0%, transparent 100%);
       pointer-events: none;
-      opacity: 0; transition: opacity 0.3s;
-    }
-    .card:hover .card-img-wrap::after { opacity: 1; }
-
-    .card-body { padding: 12px 14px 14px; position: relative; z-index: 1; }
-    .card-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-    .card-tag {
-      display: inline-block;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-      padding: 2px 10px; border-radius: 10px;
-      border: 1px solid rgba(139,92,246,0.4);
-      color: #c084fc; background: rgba(139,92,246,0.1);
     }
 
-    /* tag color variants */
-    .tag-初級 { border-color: rgba(34,211,238,0.4); color: #67e8f9; background: rgba(34,211,238,0.08); }
-    .tag-中級 { border-color: rgba(79,127,255,0.4); color: #93c5fd; background: rgba(79,127,255,0.08); }
-    .tag-上級 { border-color: rgba(251,146,60,0.4); color: #fdba74; background: rgba(251,146,60,0.08); }
-    .tag-SubAgent { border-color: rgba(167,139,250,0.5); color: #c4b5fd; background: rgba(167,139,250,0.1); }
-    .tag-Skills { border-color: rgba(52,211,153,0.4); color: #6ee7b7; background: rgba(52,211,153,0.08); }
+    .hero-content { max-width: 640px; text-align: left; position: relative; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); font-weight: 400; margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--gold);
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 600; line-height: 1.05;
+      color: var(--green); margin-bottom: 8px; letter-spacing: -0.5px;
+    }
+    h1 em { font-style: italic; color: var(--gold); }
+    .hero-catch {
+      font-size: clamp(14px,2vw,17px);
+      color: var(--text-mid); margin-bottom: 32px; font-weight: 300;
+      line-height: 1.9;
+    }
+    .hero-desc {
+      font-size: 14px; color: var(--text-light); line-height: 1.95;
+      max-width: 440px; margin-bottom: 44px;
+    }
+    .cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
+    .cta-primary {
+      display: inline-block; background: var(--green);
+      color: var(--ivory); font-size: 12px; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 14px 36px; text-decoration: none;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .cta-primary:hover { background: var(--green-mid); box-shadow: 0 4px 24px rgba(45,74,62,0.25); }
+    .cta-ghost {
+      display: inline-block; border: 1px solid var(--border-h);
+      color: var(--green); font-size: 12px; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 14px 36px; text-decoration: none;
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
+    }
+    .cta-ghost:hover { background: var(--green-pale); border-color: var(--green); }
 
-    /* ── MODAL ── */
+    /* scroll line */
+    .scroll-line {
+      position: absolute; bottom: 32px; left: clamp(24px,6vw,80px);
+      display: flex; align-items: center; gap: 12px;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .scroll-line::before {
+      content: ''; width: 48px; height: 1px; background: var(--gold-light);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.5; width: 48px; }
+      50% { opacity: 1; width: 64px; }
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section-wrap { padding: clamp(72px,10vw,120px) clamp(24px,6vw,80px); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { margin-bottom: clamp(40px,6vw,64px); }
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); font-weight: 400; margin-bottom: 12px;
+    }
+    .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px,4vw,44px); font-weight: 600;
+      color: var(--green); line-height: 1.15; margin-bottom: 12px;
+    }
+    .section-desc { font-size: 14px; color: var(--text-light); max-width: 480px; }
+
+    /* ─── PROJECTS ─── */
+    #projects { background: var(--white); }
+
+    /* Filter tabs */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--text-light);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 12px; font-weight: 400; letter-spacing: 1px;
+      cursor: pointer; transition: all 0.25s;
+    }
+    .filter-btn.active {
+      background: var(--green); border-color: var(--green);
+      color: var(--ivory);
+    }
+    .filter-btn:hover:not(.active) {
+      border-color: var(--green); color: var(--green);
+      background: var(--green-pale);
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+      gap: clamp(16px,2.5vw,28px);
+    }
+
+    /* Project card */
+    .pcard {
+      background: var(--white);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.3s;
+      opacity: 0; transform: translateY(24px);
+    }
+    .pcard.show { animation: fadeUp 0.5s ease forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .pcard:hover {
+      box-shadow: var(--shadow-h);
+      transform: translateY(-6px);
+      border-color: var(--border-h);
+    }
+
+    /* Image area */
+    .pcard-img {
+      position: relative; overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .pcard-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .pcard:hover .pcard-img img { transform: scale(1.05); }
+
+    /* overlay on hover */
+    .pcard-overlay {
+      position: absolute; inset: 0;
+      background: rgba(45,74,62,0.82);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.35s ease;
+    }
+    .pcard:hover .pcard-overlay { opacity: 1; }
+    .overlay-text {
+      color: var(--ivory); font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; font-weight: 400;
+    }
+
+    /* tag on image */
+    .pcard-tag {
+      position: absolute; top: 14px; left: 14px;
+      font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 12px;
+      background: rgba(248,245,239,0.92);
+      color: var(--green);
+      backdrop-filter: blur(4px);
+    }
+
+    /* card body */
+    .pcard-body { padding: clamp(18px,2.5vw,28px); }
+    .pcard-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 600; color: var(--green);
+      margin-bottom: 8px; line-height: 1.2;
+    }
+    .pcard-summary { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-bottom: 16px; }
+
+    .pcard-meta { display: flex; flex-direction: column; gap: 8px; }
+    .meta-row { display: flex; gap: 8px; align-items: flex-start; }
+    .meta-label {
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; white-space: nowrap;
+      padding-top: 1px; min-width: 52px;
+    }
+    .meta-value { font-size: 12px; color: var(--text-light); line-height: 1.6; }
+    .tool-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+    .chip {
+      font-size: 10px; padding: 2px 10px;
+      border: 1px solid var(--border-h);
+      color: var(--green); background: var(--green-pale);
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── MODAL ─── */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(8px);
-      z-index: 300;
-      justify-content: center; align-items: center; padding: 20px;
+      background: rgba(42,42,42,0.92);
+      backdrop-filter: blur(10px);
+      z-index: 400;
+      justify-content: center; align-items: center; padding: 24px;
     }
     .modal-overlay.open { display: flex; }
-    .modal-overlay img {
-      max-width: min(92vw, 1000px); max-height: 88vh;
-      border-radius: 12px;
-      border: 1px solid var(--border-h);
-      box-shadow: 0 0 80px rgba(79,127,255,0.25);
+    .modal-inner {
+      background: var(--white);
+      max-width: 900px; width: 100%;
+      max-height: 92vh; overflow-y: auto;
+      display: flex; flex-direction: column;
     }
+    @media (min-width: 700px) {
+      .modal-inner { flex-direction: row; max-height: 82vh; }
+    }
+    .modal-img-wrap {
+      flex: 0 0 auto; width: 100%;
+    }
+    @media (min-width: 700px) { .modal-img-wrap { width: 56%; } }
+    .modal-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .modal-body { padding: clamp(24px,4vw,40px); flex: 1; overflow-y: auto; }
+    .modal-tag {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px; display: block;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 600; color: var(--green);
+      margin-bottom: 14px; line-height: 1.2;
+    }
+    .modal-summary { font-size: 14px; color: var(--text-mid); line-height: 1.9; margin-bottom: 24px; }
+    .modal-section { margin-bottom: 18px; }
+    .modal-section-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px; display: block;
+    }
+    .modal-section p { font-size: 13px; color: var(--text-mid); line-height: 1.8; }
     .modal-close {
-      position: absolute; top: 16px; right: 20px;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(255,255,255,0.08); border: 1px solid var(--border);
-      color: white; font-size: 20px; cursor: pointer; line-height: 1;
+      position: absolute; top: 16px; right: 16px;
+      width: 40px; height: 40px;
+      background: var(--ivory); border: 1px solid var(--border);
+      color: var(--green); font-size: 18px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.2s;
     }
-    .modal-close:hover { background: rgba(139,92,246,0.3); }
+    .modal-close:hover { background: var(--green-pale); }
 
-    /* ── SKILLS ── */
-    #skills { background: var(--surface); }
-    .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-    .skill-badge {
-      padding: 9px 18px; border-radius: 8px;
-      border: 1px solid var(--border);
-      font-size: 12px; font-weight: 600; color: var(--muted);
-      background: var(--surface2);
-      transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
-      cursor: default;
-    }
-    .skill-badge:hover {
-      border-color: var(--border-h); color: var(--text);
-      box-shadow: 0 0 14px var(--glow-p);
-    }
+    /* ─── SKILLS ─── */
+    #skills { background: var(--green); }
+    #skills h2 { color: var(--ivory); }
+    #skills .section-desc { color: rgba(248,245,239,0.6); }
 
-    /* ── ABOUT ── */
-    #about { background: var(--bg); }
-    .about-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px; padding: clamp(24px,4vw,40px);
-      margin-top: 28px;
-      position: relative; overflow: hidden;
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+      gap: 1px; background: rgba(248,245,239,0.12);
+      border: 1px solid rgba(248,245,239,0.12);
+      margin-top: 48px;
     }
-    .about-card::before {
-      content: '';
-      position: absolute; top: -60px; right: -60px;
-      width: 200px; height: 200px; border-radius: 50%;
-      background: rgba(79,127,255,0.08); filter: blur(40px);
+    .skill-item {
+      background: var(--green);
+      padding: clamp(20px,3vw,32px);
+      transition: background 0.3s;
     }
-    .about-story {
-      line-height: 1.95; color: var(--muted); font-size: 15px;
-      position: relative; z-index: 1;
+    .skill-item:hover { background: var(--green-mid); }
+    .skill-icon { font-size: 22px; margin-bottom: 10px; }
+    .skill-name {
+      font-size: 13px; font-weight: 500; color: var(--ivory);
+      margin-bottom: 4px; letter-spacing: 0.5px;
     }
-    .about-story strong { color: var(--text); }
-    /* timeline dots */
-    .timeline { margin-top: 28px; display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 1; }
-    .timeline::before {
-      content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 1px;
-      background: linear-gradient(to bottom, var(--blue), var(--purple));
-    }
-    .tl-item { display: flex; gap: 20px; align-items: flex-start; }
-    .tl-dot {
-      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
-      border: 2px solid var(--blue); background: var(--surface);
-      display: flex; align-items: center; justify-content: center;
-      position: relative; z-index: 1;
-    }
-    .tl-dot::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
-    .tl-item:nth-child(2) .tl-dot, .tl-item:nth-child(2) .tl-dot::after { border-color: var(--purple); background-color: var(--surface); }
-    .tl-item:nth-child(2) .tl-dot::after { background: var(--purple); }
-    .tl-item:nth-child(3) .tl-dot, .tl-item:nth-child(3) .tl-dot::after { border-color: #c084fc; background-color: var(--surface); }
-    .tl-item:nth-child(3) .tl-dot::after { background: #c084fc; }
-    .tl-text { font-size: 14px; color: var(--muted); padding-top: 1px; }
-    .tl-text strong { color: var(--text); font-size: 13px; }
+    .skill-desc { font-size: 11px; color: rgba(248,245,239,0.55); line-height: 1.7; }
 
-    /* ── CONTACT ── */
-    #contact {
-      background: var(--surface);
-      text-align: center;
+    /* ─── ABOUT ─── */
+    #about { background: var(--ivory-dark); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(36px,5vw,64px);
+      align-items: start;
+      margin-top: 0;
     }
-    .contact-card {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px; padding: clamp(32px,5vw,56px) clamp(20px,5vw,48px);
-      max-width: 540px; margin: 28px auto 0;
-      position: relative; overflow: hidden;
+    @media (min-width: 760px) {
+      .about-grid { grid-template-columns: 1fr 1fr; }
     }
-    .contact-card::before {
-      content: '';
-      position: absolute; inset: 0; border-radius: 20px;
-      background: linear-gradient(135deg, rgba(79,127,255,0.06) 0%, rgba(139,92,246,0.06) 100%);
+    .about-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; color: var(--green); margin-bottom: 16px;
     }
-    .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
-    .link-btn {
-      padding: 11px 26px; border-radius: 8px;
-      border: 1px solid var(--border-h); color: var(--muted);
-      text-decoration: none; font-weight: 600; font-size: 13px;
-      transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .link-btn:hover {
-      background: rgba(139,92,246,0.12);
-      border-color: var(--purple); color: var(--text);
-      box-shadow: 0 0 20px var(--glow-p);
-    }
+    .about-text p { font-size: 14px; color: var(--text-mid); line-height: 2; margin-bottom: 16px; }
+    .about-text p strong { color: var(--green); font-weight: 500; }
 
-    /* ── FOOTER ── */
+    .about-values { display: flex; flex-direction: column; gap: 16px; }
+    .value-item {
+      padding: 20px 24px;
+      border-left: 2px solid var(--gold-light);
+      background: var(--white);
+    }
+    .value-title { font-size: 12px; font-weight: 500; color: var(--green); letter-spacing: 1px; margin-bottom: 4px; }
+    .value-desc { font-size: 13px; color: var(--text-light); line-height: 1.7; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--white); text-align: center; }
+    .contact-inner { max-width: 520px; margin: 0 auto; }
+    .contact-inner p { font-size: 14px; color: var(--text-light); line-height: 2; margin-top: 12px; }
+    .contact-links {
+      display: flex; justify-content: center; gap: 12px;
+      flex-wrap: wrap; margin-top: 36px;
+    }
+    .contact-btn {
+      display: inline-block; padding: 14px 36px;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      text-decoration: none; font-weight: 400;
+      transition: all 0.3s;
+    }
+    .contact-btn.primary {
+      background: var(--green); color: var(--ivory);
+    }
+    .contact-btn.primary:hover { background: var(--green-mid); box-shadow: 0 4px 20px rgba(45,74,62,0.2); }
+    .contact-btn.ghost {
+      border: 1px solid var(--border-h); color: var(--green);
+    }
+    .contact-btn.ghost:hover { background: var(--green-pale); }
+
+    /* ─── FOOTER ─── */
     footer {
-      text-align: center; padding: 28px 16px;
-      font-size: 11px; color: #3a3a60;
-      border-top: 1px solid var(--border);
+      background: var(--green);
+      text-align: center; padding: 28px 24px;
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(248,245,239,0.4);
     }
+    footer span { color: var(--gold-light); }
 
-    /* ── FADE-IN ANIMATION ── */
+    /* ─── FADE-IN ─── */
     .fade-up {
       opacity: 0; transform: translateY(28px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── CARD GRID ANIMATION ── */
-    .card { opacity: 0; transform: translateY(20px); animation: none; }
-    .card.show {
-      animation: cardIn 0.4s ease forwards;
-    }
-    @keyframes cardIn {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="logo">AI Dev Portfolio</div>
+  <div class="logo-wrap">
+    <div class="logo-main">Bloom with AI</div>
+    <div class="logo-sub">Web Creator &amp; Engineer</div>
+  </div>
   <button class="hamburger" id="hamburger" aria-label="メニュー">
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links" id="nav-links">
-    <li><a href="#gallery">実績</a></li>
-    <li><a href="#skills">スキル</a></li>
-    <li><a href="#about">プロフィール</a></li>
-    <li><a href="#contact">連絡先</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
   <div class="hero-content">
-    <div class="badge-hero">Claude Code で AI 自動化を学習中</div>
-    <h1>
-      初心者 AI エンジニアの
-      <span class="gradient-text">ポートフォリオ</span>
-    </h1>
-    <p class="hero-sub">
-      Claude Code を使って初級から上級まで段階的に学習。<br>
-      SubAgent・Skills・並列処理など AI 開発の実績をまとめています。
+    <div class="hero-eyebrow">Web Creator &amp; AI Engineer</div>
+    <h1>Bloom<br>with <em>AI</em></h1>
+    <p class="hero-catch">AIで、アイデアを価値ある形に。</p>
+    <p class="hero-desc">
+      Claude Code を中心に AI ツールを活用し、<br>
+      企画から制作・自動化まで一貫して手がけています。<br>
+      テクノロジーと創造性で、あなたのビジョンを実現します。
     </p>
     <div class="cta-group">
-      <a href="#gallery" class="cta">実績を見る</a>
-      <a href="#about" class="cta-ghost">プロフィール</a>
+      <a href="#projects" class="cta-primary">Projects を見る</a>
+      <a href="#contact" class="cta-ghost">お問い合わせ</a>
     </div>
   </div>
-  <div class="scroll-hint">scroll</div>
+  <div class="scroll-line">scroll</div>
 </section>
 
-<!-- GALLERY -->
-<section id="gallery" class="section-wrap">
+<!-- PROJECTS -->
+<section id="projects" class="section-wrap">
   <div class="section-inner">
-    <div class="fade-up">
-      <div class="section-label">Works</div>
-      <h2>実績ギャラリー</h2>
-      <p class="section-desc">タブで難易度別に絞り込めます。カードをクリックすると拡大表示します。</p>
+    <div class="section-header fade-up">
+      <div class="section-eyebrow">Projects</div>
+      <h2>制作実績</h2>
+      <p class="section-desc">AI を活用して制作・構築したプロジェクトをご紹介します。</p>
     </div>
-    <div class="tabs fade-up">
-      <button class="tab active" data-filter="all">すべて</button>
-      <button class="tab" data-filter="初級">初級</button>
-      <button class="tab" data-filter="中級">中級</button>
-      <button class="tab" data-filter="上級">上級</button>
-      <button class="tab" data-filter="SubAgent">SubAgent</button>
-      <button class="tab" data-filter="Skills">Skills</button>
+
+    <div class="filter-bar fade-up delay-1">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="初級">Starter</button>
+      <button class="filter-btn" data-filter="中級">Standard</button>
+      <button class="filter-btn" data-filter="上級">Advanced</button>
+      <button class="filter-btn" data-filter="SubAgent">SubAgent</button>
+      <button class="filter-btn" data-filter="Skills">Skills</button>
     </div>
-    <div class="cards" id="card-grid"></div>
+
+    <div class="cards-grid" id="card-grid"></div>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills" class="section-wrap">
   <div class="section-inner">
-    <div class="fade-up">
-      <div class="section-label">Skills</div>
-      <h2>習得スキル</h2>
-      <p class="section-desc">Claude Code を通じて身につけた技術スタック</p>
+    <div class="section-header fade-up">
+      <div class="section-eyebrow" style="color:var(--gold-light)">Skills</div>
+      <h2>スキル &amp; ツール</h2>
+      <p class="section-desc" style="color:rgba(248,245,239,0.55)">AI ツールと技術を組み合わせ、アイデアを形にします。</p>
     </div>
-    <div class="badges fade-up">
-      <span class="skill-badge">SubAgent 設計</span>
-      <span class="skill-badge">Skills 作成</span>
-      <span class="skill-badge">並列エージェント処理</span>
-      <span class="skill-badge">Prompt エンジニアリング</span>
-      <span class="skill-badge">タスク分離・自動化</span>
-      <span class="skill-badge">Claude Code CLI</span>
-      <span class="skill-badge">Python / pytest</span>
-      <span class="skill-badge">MCP ツール連携</span>
+    <div class="skills-grid fade-up delay-1">
+      <div class="skill-item">
+        <div class="skill-icon">✦</div>
+        <div class="skill-name">Claude Code</div>
+        <div class="skill-desc">AI エージェントの設計・構築・自動化</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">◈</div>
+        <div class="skill-name">SubAgent 設計</div>
+        <div class="skill-desc">専門エージェントの分業・並列実行</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">❋</div>
+        <div class="skill-name">Skills 作成</div>
+        <div class="skill-desc">カスタムコマンド・ワークフロー設計</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">◇</div>
+        <div class="skill-name">Prompt 設計</div>
+        <div class="skill-desc">精度の高い AI 指示設計</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">⬡</div>
+        <div class="skill-name">Web 制作</div>
+        <div class="skill-desc">HTML / CSS / JavaScript</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">△</div>
+        <div class="skill-name">MCP 連携</div>
+        <div class="skill-desc">外部ツール・API との統合自動化</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">○</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-desc">スクリプト作成・テスト（pytest）</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-icon">▣</div>
+        <div class="skill-name">GitHub Pages</div>
+        <div class="skill-desc">サイト公開・バージョン管理</div>
+      </div>
     </div>
   </div>
 </section>
@@ -495,27 +566,43 @@
 <!-- ABOUT -->
 <section id="about" class="section-wrap">
   <div class="section-inner">
-    <div class="fade-up">
-      <div class="section-label">About</div>
-      <h2>プロフィール</h2>
+    <div class="section-header fade-up">
+      <div class="section-eyebrow">About Me</div>
+      <h2>About</h2>
     </div>
-    <div class="about-card fade-up">
-      <p class="about-story">
-        Claude Code の学習を通じて、AI ツールを <strong>設計・拡張できるエンジニア</strong> を目指して取り組んできました。<br>
-        単に使うだけでなく、仕組みを理解しながら実践することを大切にしています。
-      </p>
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-text"><strong>初級</strong> — 基本コマンド・ファイル生成・Claude Code CLI 操作を習得</div>
+    <div class="about-grid">
+      <div class="about-text fade-up delay-1">
+        <h3>AIと共に、創造の可能性を広げる</h3>
+        <p>
+          <strong>Claude Code</strong> をはじめとした AI ツールを活用し、
+          Web 制作・自動化・エージェント設計など幅広い領域で制作活動を行っています。
+        </p>
+        <p>
+          「テクノロジーは、人の創造性を拡張するためにある」という信念のもと、
+          アイデアを価値ある形に変えることを大切にしています。
+        </p>
+        <p>
+          複数の <strong>SubAgent を連携させた自動化ワークフロー</strong>の構築から、
+          カスタム <strong>Skills の設計</strong>まで、
+          AI を深く理解した上でプロジェクトに活かします。
+        </p>
+      </div>
+      <div class="about-values fade-up delay-2">
+        <div class="value-item">
+          <div class="value-title">✦ Creativity First</div>
+          <div class="value-desc">技術は手段。まずアイデアと目的を大切にします。</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-text"><strong>中級</strong> — Skills 作成・カスタムコマンド設計・MCP ツール連携を実践</div>
+        <div class="value-item">
+          <div class="value-title">◈ AI-Driven</div>
+          <div class="value-desc">AI の力を最大限に引き出すプロンプト・設計を追求します。</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-text"><strong>上級</strong> — 複数 SubAgent の並列実行・自動化ワークフロー構築を実現</div>
+        <div class="value-item">
+          <div class="value-title">❋ Detail-Oriented</div>
+          <div class="value-desc">細部のこだわりが、品質と信頼につながると考えています。</div>
+        </div>
+        <div class="value-item">
+          <div class="value-title">◇ Always Growing</div>
+          <div class="value-desc">AI の進化と共に、自身のスキルも継続的に更新します。</div>
         </div>
       </div>
     </div>
@@ -525,103 +612,295 @@
 <!-- CONTACT -->
 <section id="contact" class="section-wrap">
   <div class="section-inner">
-    <div class="fade-up">
-      <div class="section-label">Contact</div>
+    <div class="contact-inner fade-up">
+      <div class="section-eyebrow" style="justify-content:center">Contact</div>
       <h2>お問い合わせ</h2>
-    </div>
-    <div class="contact-card fade-up">
-      <p style="color:var(--muted);font-size:14px;margin-bottom:24px;line-height:1.7">
-        お仕事・コラボレーション・勉強会のご相談など、<br>
-        お気軽にご連絡ください。
+      <p>
+        お仕事のご相談・コラボレーション・制作のご依頼など、<br>
+        どうぞお気軽にご連絡ください。
       </p>
-      <div class="links">
-        <a href="mailto:azu-tama1031@outlook.jp" class="link-btn">✉ メール</a>
-        <a href="https://github.com/" class="link-btn" target="_blank" rel="noopener">⌥ GitHub</a>
+      <div class="contact-links">
+        <a href="mailto:azu-tama1031@outlook.jp" class="contact-btn primary">✉ メールを送る</a>
+        <a href="https://github.com/azu-tama1031-coder" target="_blank" rel="noopener" class="contact-btn ghost">GitHub</a>
       </div>
     </div>
   </div>
 </section>
 
-<footer>© 2026 AI Dev Portfolio — Built with Claude Code</footer>
+<footer>
+  © 2026 <span>Bloom with AI</span> — Crafted with Claude Code
+</footer>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal">
-  <button class="modal-close" id="modal-close">✕</button>
-  <img id="modal-img" src="" alt="">
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+  <button class="modal-close" id="modal-close" aria-label="閉じる">✕</button>
+  <div class="modal-inner" id="modal-inner">
+    <div class="modal-img-wrap">
+      <img id="modal-img" src="" alt="">
+    </div>
+    <div class="modal-body">
+      <span class="modal-tag" id="modal-tag"></span>
+      <div class="modal-title" id="modal-title"></div>
+      <p class="modal-summary" id="modal-summary"></p>
+      <div class="modal-section">
+        <span class="modal-section-label">使用ツール</span>
+        <p id="modal-tools"></p>
+      </div>
+      <div class="modal-section">
+        <span class="modal-section-label">工夫した点</span>
+        <p id="modal-point"></p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
 /* ── DATA ── */
 const items = [
-  { file: "claudeC初級.png",   label: "Claude Code 初級",  tag: "初級" },
-  { file: "初級モード.png",    label: "初級モード",         tag: "初級" },
-  { file: "C中級.png",         label: "C 中級",             tag: "中級" },
-  { file: "C中級1.png",        label: "C 中級①",           tag: "中級" },
-  { file: "C中級①.png",       label: "C 中級②",           tag: "中級" },
-  { file: "C上級①.png",       label: "C 上級①",           tag: "上級" },
-  { file: "C上級②.png",       label: "C 上級②",           tag: "上級" },
-  { file: "C上級③.png",       label: "C 上級③",           tag: "上級" },
-  { file: "上級①.png",        label: "上級①",             tag: "上級" },
-  { file: "上級②.png",        label: "上級②",             tag: "上級" },
-  { file: "上級③.png",        label: "上級③",             tag: "上級" },
-  { file: "課題並列.png",      label: "課題 並列処理",      tag: "上級" },
-  { file: "課題分離.png",      label: "課題 分離",          tag: "上級" },
-  { file: "subA1.png",         label: "SubAgent ①",        tag: "SubAgent" },
-  { file: "subA2.png",         label: "SubAgent ②",        tag: "SubAgent" },
-  { file: "subA3.png",         label: "SubAgent ③",        tag: "SubAgent" },
-  { file: "subA4.png",         label: "SubAgent ④",        tag: "SubAgent" },
-  { file: "サイドチャット.png",label: "サイドチャット",     tag: "SubAgent" },
-  { file: "ペイン.png",        label: "ペイン",             tag: "SubAgent" },
-  { file: "skills初級.png",    label: "Skills 初級",        tag: "Skills" },
-  { file: "skills中級.png",    label: "Skills 中級",        tag: "Skills" },
-  { file: "skills上級①.png",  label: "Skills 上級①",      tag: "Skills" },
-  { file: "skills上級②.png",  label: "Skills 上級②",      tag: "Skills" },
-  { file: "skills上級③.png",  label: "Skills 上級③",      tag: "Skills" },
-  { file: "skills上級④.png",  label: "Skills 上級④",      tag: "Skills" },
-  { file: "スキル①.png",      label: "スキル①",           tag: "Skills" },
-  { file: "スキル②.png",      label: "スキル②",           tag: "Skills" },
-  { file: "スキル③.png",      label: "スキル③",           tag: "Skills" },
-  { file: "スキル上級①.png",  label: "スキル上級①",       tag: "Skills" },
-  { file: "スキル上級②.png",  label: "スキル上級②",       tag: "Skills" },
+  {
+    file: "claudeC初級.png", label: "Claude Code — 基本操作", tag: "初級",
+    summary: "Claude Code CLI を使ったファイル操作・コマンド実行の基礎を実践。AI との対話を通じてコードを生成・修正するワークフローを確立しました。",
+    tools: "Claude Code, PowerShell",
+    point: "指示の粒度を調整し、AI が最適な出力を返せるよう試行錯誤しながらプロンプトを洗練させました。"
+  },
+  {
+    file: "初級モード.png", label: "初期設定 & 環境構築", tag: "初級",
+    summary: "Claude Code の初期設定から作業環境の整備まで、快適な AI 開発フローを構築しました。",
+    tools: "Claude Code, Git",
+    point: "再現性のある環境設定にすることで、次のプロジェクトへの展開をスムーズにしました。"
+  },
+  {
+    file: "C中級.png", label: "Claude Code 中級実践", tag: "中級",
+    summary: "より複雑なタスクへの応用。複数ファイルにまたがる処理や、条件分岐を含む自動化を実現しました。",
+    tools: "Claude Code, Python",
+    point: "タスクを細かく分解して AI に渡すことで、精度と再現性を大幅に向上させました。"
+  },
+  {
+    file: "C中級1.png", label: "中級ワークフロー構築①", tag: "中級",
+    summary: "繰り返し作業を自動化するワークフローを設計。作業時間の大幅な短縮を実現しました。",
+    tools: "Claude Code, Bash",
+    point: "処理の流れを図示してから実装することで、手戻りなくスムーズに完成しました。"
+  },
+  {
+    file: "C中級①.png", label: "中級ワークフロー構築②", tag: "中級",
+    summary: "前プロジェクトを発展させ、エラーハンドリングと出力品質の改善に取り組みました。",
+    tools: "Claude Code, Python",
+    point: "失敗ケースを事前に想定し、堅牢な処理フローを設計しました。"
+  },
+  {
+    file: "C上級①.png", label: "上級自動化 — Phase 1", tag: "上級",
+    summary: "複数コンポーネントを組み合わせた高度な自動化パイプラインを構築。エンドツーエンドで動作するシステムを実現しました。",
+    tools: "Claude Code, Python, pytest",
+    point: "各コンポーネントを独立してテストし、統合時のリスクを最小化しました。"
+  },
+  {
+    file: "C上級②.png", label: "上級自動化 — Phase 2", tag: "上級",
+    summary: "Phase 1 を拡張し、より多くのユースケースに対応できる汎用性の高いシステムへ進化させました。",
+    tools: "Claude Code, Python",
+    point: "抽象化レイヤーを設けることで、変更に強い設計を実現しました。"
+  },
+  {
+    file: "C上級③.png", label: "上級自動化 — Phase 3", tag: "上級",
+    summary: "最終フェーズとして、パフォーマンスの最適化とドキュメント整備を行いました。",
+    tools: "Claude Code, Python, Git",
+    point: "自動テストを整備し、品質を担保しながら継続的に改善できる体制を整えました。"
+  },
+  {
+    file: "上級①.png", label: "高度なタスク設計①", tag: "上級",
+    summary: "複雑な要件を整理し、AI が正確に処理できる構造化されたプロンプト設計を行いました。",
+    tools: "Claude Code",
+    point: "要件をツリー構造で整理し、AI への指示を階層的に構成しました。"
+  },
+  {
+    file: "上級②.png", label: "高度なタスク設計②", tag: "上級",
+    summary: "複数のサブタスクを連鎖させた処理フローを設計し、複雑な目標を自動達成するシステムを構築しました。",
+    tools: "Claude Code, Bash",
+    point: "各ステップの出力を次の入力に自動接続することで、シームレスな処理を実現しました。"
+  },
+  {
+    file: "上級③.png", label: "高度なタスク設計③", tag: "上級",
+    summary: "これまでの知見を集約し、最も効率的かつ高品質な成果物を生み出すフローを確立しました。",
+    tools: "Claude Code, Python, pytest",
+    point: "品質チェックポイントを各段階に設け、最終成果物の信頼性を高めました。"
+  },
+  {
+    file: "課題並列.png", label: "並列エージェント処理", tag: "上級",
+    summary: "複数の AI エージェントを並列で実行し、処理時間を大幅に短縮する手法を実践しました。",
+    tools: "Claude Code, SubAgent",
+    point: "タスクの依存関係を分析し、並列実行可能な部分を最大化することで効率を追求しました。"
+  },
+  {
+    file: "課題分離.png", label: "タスク分離設計", tag: "上級",
+    summary: "大きなタスクを適切な粒度に分解し、各エージェントが最大のパフォーマンスを発揮できる設計を実現しました。",
+    tools: "Claude Code, SubAgent",
+    point: "関心の分離原則を AI 設計に応用し、保守性と拡張性を両立しました。"
+  },
+  {
+    file: "subA1.png", label: "SubAgent 設計①", tag: "SubAgent",
+    summary: "専門化された SubAgent を設計し、特定の役割に特化した高精度な AI 処理を実現しました。",
+    tools: "Claude Code, SubAgent",
+    point: "役割を明確に定義することで、各 SubAgent の出力品質が向上しました。"
+  },
+  {
+    file: "subA2.png", label: "SubAgent 設計②", tag: "SubAgent",
+    summary: "複数の SubAgent が連携して一つの目標を達成する、オーケストレーション設計を実践しました。",
+    tools: "Claude Code, SubAgent",
+    point: "Agent 間の通信プロトコルを設計し、スムーズな情報受け渡しを実現しました。"
+  },
+  {
+    file: "subA3.png", label: "SubAgent 設計③", tag: "SubAgent",
+    summary: "エラー発生時の再試行・フォールバック処理を備えた、堅牢な SubAgent システムを構築しました。",
+    tools: "Claude Code, SubAgent, Python",
+    point: "異常系のハンドリングを組み込むことで、本番環境でも安定動作するシステムにしました。"
+  },
+  {
+    file: "subA4.png", label: "SubAgent 設計④", tag: "SubAgent",
+    summary: "これまでの SubAgent 設計の集大成として、複雑なビジネスロジックを処理するマルチエージェントシステムを実現しました。",
+    tools: "Claude Code, SubAgent, Python",
+    point: "設計パターンを標準化し、再利用性の高い SubAgent ライブラリを構築しました。"
+  },
+  {
+    file: "サイドチャット.png", label: "サイドチャット統合", tag: "SubAgent",
+    summary: "メイン処理と並行してサイドチャネルで情報を収集・処理するアーキテクチャを設計しました。",
+    tools: "Claude Code, SubAgent",
+    point: "非同期処理の設計により、ユーザー体験を損なわずに高度な処理を実現しました。"
+  },
+  {
+    file: "ペイン.png", label: "マルチペイン設計", tag: "SubAgent",
+    summary: "複数のペインで並行して異なるタスクを処理する、効率的な作業環境を構築しました。",
+    tools: "Claude Code, SubAgent",
+    point: "視覚的な情報整理と処理の並列化を組み合わせ、生産性を最大化しました。"
+  },
+  {
+    file: "skills初級.png", label: "Skills 作成 — 基礎", tag: "Skills",
+    summary: "Claude Code のカスタム Skills を初めて作成。繰り返し使うコマンドをスキルとして定義し、作業を効率化しました。",
+    tools: "Claude Code, Skills",
+    point: "よく使うパターンをスキル化することで、作業速度と一貫性が格段に向上しました。"
+  },
+  {
+    file: "skills中級.png", label: "Skills 作成 — 応用", tag: "Skills",
+    summary: "より複雑なロジックを含む Skills を設計。条件分岐や変数を活用した高度なスキルを実装しました。",
+    tools: "Claude Code, Skills",
+    point: "スキルのパラメータ化により、多様なシチュエーションに対応できる汎用スキルを作成しました。"
+  },
+  {
+    file: "skills上級①.png", label: "Skills 上級設計①", tag: "Skills",
+    summary: "複数の Skills を連鎖させた高度なワークフロー自動化を実現しました。",
+    tools: "Claude Code, Skills, Python",
+    point: "スキルのモジュール化により、組み合わせることで無限のバリエーションを生み出せる設計にしました。"
+  },
+  {
+    file: "skills上級②.png", label: "Skills 上級設計②", tag: "Skills",
+    summary: "外部 API と連携する Skills を設計し、AI の機能をリアルタイムデータで強化しました。",
+    tools: "Claude Code, Skills, MCP",
+    point: "API のレスポンスを動的に Skills に組み込む設計で、常に最新情報を活用できるようにしました。"
+  },
+  {
+    file: "skills上級③.png", label: "Skills 上級設計③", tag: "Skills",
+    summary: "チームでの利用を想定した、ドキュメントと再利用性を重視した Skills ライブラリを構築しました。",
+    tools: "Claude Code, Skills, Git",
+    point: "Skills の仕様をドキュメント化し、他者が迷わず使えるライブラリとして整備しました。"
+  },
+  {
+    file: "skills上級④.png", label: "Skills 上級設計④", tag: "Skills",
+    summary: "パフォーマンステストを組み込んだ Skills を設計し、品質担保のプロセスを自動化しました。",
+    tools: "Claude Code, Skills, pytest",
+    point: "テスト駆動で Skills を開発するアプローチにより、高品質な成果物を効率的に実現しました。"
+  },
+  {
+    file: "スキル①.png", label: "カスタムスキル①", tag: "Skills",
+    summary: "日常的な開発作業を自動化するカスタムスキルを設計・実装しました。",
+    tools: "Claude Code, Skills",
+    point: "使用頻度の高い作業を分析し、最もインパクトの大きい部分から自動化を進めました。"
+  },
+  {
+    file: "スキル②.png", label: "カスタムスキル②", tag: "Skills",
+    summary: "コードレビューを自動化するスキルを作成。AI が一定の品質基準でコードをチェックする仕組みを構築しました。",
+    tools: "Claude Code, Skills",
+    point: "レビュー観点をスキルに組み込むことで、均一な品質チェックを自動化しました。"
+  },
+  {
+    file: "スキル③.png", label: "カスタムスキル③", tag: "Skills",
+    summary: "ドキュメント生成を自動化するスキルを開発。コードから自動でドキュメントを生成するフローを実現しました。",
+    tools: "Claude Code, Skills, Python",
+    point: "テンプレートを設計し、一貫性のあるドキュメントが自動生成される仕組みを構築しました。"
+  },
+  {
+    file: "スキル上級①.png", label: "上級カスタムスキル①", tag: "Skills",
+    summary: "複数のスキルを組み合わせた統合ワークフローを設計。プロジェクト全体の自動化を実現しました。",
+    tools: "Claude Code, Skills, Python, Git",
+    point: "スキルの依存関係を管理し、正しい順序で実行される仕組みを設計しました。"
+  },
+  {
+    file: "スキル上級②.png", label: "上級カスタムスキル②", tag: "Skills",
+    summary: "AI の推論能力を最大限に引き出す高度なスキル設計の集大成として、複雑なビジネスロジックを自動化しました。",
+    tools: "Claude Code, Skills, Python, MCP",
+    point: "スキルの組み合わせ方に創意工夫を凝らし、単純な自動化を超えた知的な処理を実現しました。"
+  },
 ];
 
-/* ── CARD RENDER ── */
+/* ── RENDER CARDS ── */
 const grid = document.getElementById('card-grid');
+const tagLabelMap = { 初級:'Starter', 中級:'Standard', 上級:'Advanced', SubAgent:'SubAgent', Skills:'Skills' };
+
 function render(filter) {
   const filtered = filter === 'all' ? items : items.filter(i => i.tag === filter);
-  grid.innerHTML = filtered.map(i => `
-    <div class="card" onclick="openModal('image/${encodeURIComponent(i.file)}')">
-      <div class="card-img-wrap">
-        <img src="image/${encodeURIComponent(i.file)}" alt="${i.label}" loading="lazy">
+  grid.innerHTML = filtered.map((item, i) => `
+    <div class="pcard" data-idx="${items.indexOf(item)}" style="animation-delay:${i * 35}ms">
+      <div class="pcard-img">
+        <img src="image/${encodeURIComponent(item.file)}" alt="${item.label}" loading="lazy">
+        <div class="pcard-overlay"><span class="overlay-text">View Project</span></div>
+        <span class="pcard-tag">${tagLabelMap[item.tag] || item.tag}</span>
       </div>
-      <div class="card-body">
-        <div class="card-title">${i.label}</div>
-        <span class="card-tag tag-${i.tag}">${i.tag}</span>
+      <div class="pcard-body">
+        <div class="pcard-title">${item.label}</div>
+        <p class="pcard-summary">${item.summary.slice(0, 60)}...</p>
+        <div class="pcard-meta">
+          <div class="meta-row">
+            <span class="meta-label">Tool</span>
+            <div class="tool-chips">${item.tools.split(',').map(t => `<span class="chip">${t.trim()}</span>`).join('')}</div>
+          </div>
+        </div>
       </div>
     </div>
   `).join('');
-  /* staggered entrance */
-  grid.querySelectorAll('.card').forEach((c, idx) => {
-    setTimeout(() => c.classList.add('show'), idx * 40);
+
+  grid.querySelectorAll('.pcard').forEach((c, idx) => {
+    setTimeout(() => c.classList.add('show'), idx * 35);
+    c.addEventListener('click', () => openModal(parseInt(c.dataset.idx)));
   });
 }
 
-/* ── TABS ── */
-document.querySelectorAll('.tab').forEach(btn => {
+/* ── MODAL ── */
+const modal = document.getElementById('modal');
+function openModal(idx) {
+  const item = items[idx];
+  document.getElementById('modal-img').src = `image/${encodeURIComponent(item.file)}`;
+  document.getElementById('modal-img').alt = item.label;
+  document.getElementById('modal-tag').textContent = tagLabelMap[item.tag] || item.tag;
+  document.getElementById('modal-title').textContent = item.label;
+  document.getElementById('modal-summary').textContent = item.summary;
+  document.getElementById('modal-tools').textContent = item.tools;
+  document.getElementById('modal-point').textContent = item.point;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modal-close').onclick = closeModal;
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── FILTER ── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render(btn.dataset.filter);
   });
 });
-
-/* ── MODAL ── */
-const modal = document.getElementById('modal');
-const modalImg = document.getElementById('modal-img');
-function openModal(src) { modalImg.src = src; modal.classList.add('open'); }
-document.getElementById('modal-close').onclick = () => modal.classList.remove('open');
-modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
 
 /* ── HAMBURGER ── */
 const ham = document.getElementById('hamburger');
@@ -629,10 +908,12 @@ const navLinks = document.getElementById('nav-links');
 ham.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-/* ── FADE-IN on scroll ── */
+/* ── INTERSECTION OBSERVER ── */
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.1 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 render('all');
