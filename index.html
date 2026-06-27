@@ -3,581 +3,643 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bloom with AI</title>
+
+  <!-- SEO -->
+  <title>Bloom with AI — AI Web Creator Portfolio</title>
+  <meta name="description" content="Claude Codeを中心にAIツールを活用し、Webサイト制作・自動化ツール・業務改善を手がけるAI Web Creatorのポートフォリオです。">
+  <meta name="author" content="Bloom with AI">
+
+  <!-- OGP -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bloom with AI — AI Web Creator Portfolio">
+  <meta property="og:description" content="Claude Codeを中心にAIツールを活用し、Webサイト制作・自動化ツール・業務改善を手がけるAI Web Creatorのポートフォリオです。">
+  <meta property="og:image" content="https://azu-tama1031-coder.github.io/ai-dev-portfolio/image/subA1.png">
+  <meta property="og:url" content="https://azu-tama1031-coder.github.io/ai-dev-portfolio/">
+
+  <!-- Favicon (SVG inline) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%232d4a3e'/><text y='24' x='4' font-size='22'>🌿</text></svg>">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ════════════════════════════════
+     TOKENS
+  ════════════════════════════════ */
+  :root {
+    --ivory:       #f8f5ef;
+    --ivory-dark:  #f0ebe0;
+    --ivory-mid:   #e8e0d0;
+    --green:       #2d4a3e;
+    --green-mid:   #3d6455;
+    --green-light: #5a8a72;
+    --green-pale:  #eaf2ed;
+    --gold:        #b8975a;
+    --gold-light:  #d4b07a;
+    --text:        #2a2a2a;
+    --text-mid:    #5a5a5a;
+    --text-light:  #8a8a8a;
+    --white:       #ffffff;
+    --border:      rgba(45,74,62,0.12);
+    --border-h:    rgba(45,74,62,0.3);
+    --shadow-sm:   0 2px 12px rgba(45,74,62,0.07);
+    --shadow-md:   0 6px 28px rgba(45,74,62,0.12);
+    --shadow-lg:   0 16px 56px rgba(45,74,62,0.18);
+    --bg:          var(--ivory);
+    --surface:     var(--white);
+    --nav-bg:      rgba(248,245,239,0.88);
+  }
+  [data-theme="dark"] {
+    --ivory:       #1a1f1d;
+    --ivory-dark:  #141918;
+    --ivory-mid:   #1e2422;
+    --green:       #6ab89a;
+    --green-mid:   #7ecbad;
+    --green-light: #9ed8bf;
+    --green-pale:  #1e2f29;
+    --gold:        #d4b07a;
+    --gold-light:  #e8c89a;
+    --text:        #e8e8e0;
+    --text-mid:    #aaa89e;
+    --text-light:  #70706a;
+    --white:       #1e2422;
+    --border:      rgba(106,184,154,0.15);
+    --border-h:    rgba(106,184,154,0.35);
+    --shadow-sm:   0 2px 12px rgba(0,0,0,0.3);
+    --shadow-md:   0 6px 28px rgba(0,0,0,0.35);
+    --shadow-lg:   0 16px 56px rgba(0,0,0,0.45);
+    --bg:          #141918;
+    --surface:     #1e2422;
+    --nav-bg:      rgba(20,25,24,0.9);
+  }
 
-    :root {
-      --ivory:      #f8f5ef;
-      --ivory-dark: #f0ebe0;
-      --ivory-mid:  #e8e0d0;
-      --green:      #2d4a3e;
-      --green-mid:  #3d6455;
-      --green-light:#5a8a72;
-      --green-pale: #eaf2ed;
-      --gold:       #b8975a;
-      --gold-light: #d4b07a;
-      --text:       #2a2a2a;
-      --text-mid:   #5a5a5a;
-      --text-light: #8a8a8a;
-      --white:      #ffffff;
-      --border:     rgba(45,74,62,0.12);
-      --border-h:   rgba(45,74,62,0.3);
-      --shadow:     0 2px 24px rgba(45,74,62,0.08);
-      --shadow-h:   0 12px 48px rgba(45,74,62,0.18);
-    }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.8;
+    transition: background 0.3s, color 0.3s;
+  }
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background: var(--ivory-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--green-light); border-radius:3px; }
 
-    html { scroll-behavior: smooth; }
+  /* ════════════════════════════════
+     NAV
+  ════════════════════════════════ */
+  nav {
+    position:fixed; top:0; width:100%; z-index:300;
+    height:64px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 0 clamp(20px,5vw,64px);
+    transition: background 0.3s;
+  }
+  .logo-wrap { display:flex; flex-direction:column; line-height:1.1; }
+  .logo-main {
+    font-family:'Cormorant Garamond',serif;
+    font-size:20px; font-weight:600; letter-spacing:1px;
+    color: var(--green);
+  }
+  .logo-sub { font-size:9px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; }
 
-    body {
-      background: var(--ivory);
-      color: var(--text);
-      font-family: 'Noto Sans JP', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-      line-height: 1.8;
-    }
+  .nav-right { display:flex; align-items:center; gap:clamp(16px,2.5vw,36px); }
+  .nav-links { display:flex; gap:clamp(16px,2.5vw,36px); list-style:none; }
+  .nav-links a {
+    color:var(--text-mid); text-decoration:none;
+    font-size:12px; font-weight:400; letter-spacing:1.5px; text-transform:uppercase;
+    position:relative; transition:color 0.25s;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px;
+    background:var(--gold); transition:width 0.3s;
+  }
+  .nav-links a:hover { color:var(--green); }
+  .nav-links a:hover::after { width:100%; }
 
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--ivory-dark); }
-    ::-webkit-scrollbar-thumb { background: var(--green-light); border-radius: 3px; }
+  /* Dark mode toggle */
+  #theme-toggle {
+    background:none; border:1px solid var(--border-h);
+    width:36px; height:36px; border-radius:50%;
+    font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition: border-color 0.2s, background 0.2s;
+    flex-shrink:0;
+  }
+  #theme-toggle:hover { background:var(--green-pale); }
 
-    /* ─── NAV ─── */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 200;
-      height: 64px;
-      background: rgba(248,245,239,0.88);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 0 clamp(20px,5vw,64px);
+  .hamburger {
+    display:none; flex-direction:column; gap:5px;
+    background:none; border:none; cursor:pointer; padding:4px;
+  }
+  .hamburger span {
+    display:block; width:22px; height:1.5px;
+    background:var(--green); border-radius:2px; transition:all 0.25s;
+  }
+  @media (max-width:680px) {
+    .hamburger { display:flex; }
+    .nav-links {
+      display:none; position:fixed; top:64px; left:0; width:100%;
+      flex-direction:column; gap:0;
+      background: var(--nav-bg); backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border);
     }
-    .logo-wrap { display: flex; flex-direction: column; line-height: 1.1; }
-    .logo-main {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; font-weight: 600; letter-spacing: 1px;
-      color: var(--green);
-    }
-    .logo-sub { font-size: 9px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+    .nav-links.open { display:flex; }
+    .nav-links li { border-bottom:1px solid var(--border); }
+    .nav-links a { display:block; padding:18px 28px; font-size:14px; }
+    .nav-links a::after { display:none; }
+  }
 
-    .nav-links { display: flex; gap: clamp(20px,3vw,40px); list-style: none; }
-    .nav-links a {
-      color: var(--text-mid); text-decoration: none;
-      font-size: 12px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase;
-      position: relative; transition: color 0.25s;
-    }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
-      background: var(--gold); transition: width 0.3s ease;
-    }
-    .nav-links a:hover { color: var(--green); }
-    .nav-links a:hover::after { width: 100%; }
+  /* ════════════════════════════════
+     HERO
+  ════════════════════════════════ */
+  #hero {
+    min-height:100svh;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    align-items:center;
+    gap:clamp(32px,5vw,80px);
+    padding: clamp(80px,12vw,120px) clamp(24px,6vw,80px) clamp(60px,8vw,100px);
+    position:relative; overflow:hidden;
+    background: var(--bg);
+  }
+  /* grid line */
+  #hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 10%, transparent 80%);
+    pointer-events:none;
+  }
+  @media (max-width:760px) {
+    #hero { grid-template-columns:1fr; }
+    .hero-deco { display:none; }
+  }
+  .hero-content { position:relative; z-index:1; }
+  .hero-eyebrow {
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:11px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:400; margin-bottom:24px;
+  }
+  .hero-eyebrow::before { content:''; width:32px; height:1px; background:var(--gold); }
+  h1 {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(40px,6.5vw,76px);
+    font-weight:600; line-height:1.05;
+    color:var(--green); margin-bottom:16px; letter-spacing:-0.5px;
+  }
+  h1 em { font-style:italic; color:var(--gold); }
+  .hero-sub {
+    font-size:clamp(14px,1.8vw,17px);
+    color:var(--text-mid); margin-bottom:12px;
+    line-height:1.8; font-weight:400;
+  }
+  .hero-desc {
+    font-size:14px; color:var(--text-light); line-height:2;
+    max-width:440px; margin-bottom:44px;
+  }
+  .cta-group { display:flex; gap:12px; flex-wrap:wrap; }
+  .btn-primary {
+    display:inline-block; background:var(--green);
+    color:var(--ivory); font-size:12px; font-weight:500;
+    letter-spacing:2px; text-transform:uppercase;
+    padding:14px 32px; text-decoration:none;
+    transition:background 0.3s, box-shadow 0.3s, transform 0.2s;
+  }
+  .btn-primary:hover { background:var(--green-mid); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .btn-ghost {
+    display:inline-block; border:1px solid var(--border-h);
+    color:var(--green); font-size:12px; font-weight:400;
+    letter-spacing:2px; text-transform:uppercase;
+    padding:14px 32px; text-decoration:none;
+    transition:all 0.3s;
+  }
+  .btn-ghost:hover { background:var(--green-pale); border-color:var(--green); transform:translateY(-2px); }
 
-    /* hamburger */
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: pointer; padding: 4px;
-    }
-    .hamburger span {
-      display: block; width: 22px; height: 1.5px;
-      background: var(--green); border-radius: 2px; transition: all 0.25s;
-    }
-    @media (max-width: 640px) {
-      .hamburger { display: flex; }
-      .nav-links {
-        display: none; position: fixed; top: 64px; left: 0; width: 100%;
-        flex-direction: column; gap: 0;
-        background: rgba(248,245,239,0.98);
-        border-bottom: 1px solid var(--border);
-      }
-      .nav-links.open { display: flex; }
-      .nav-links li { border-bottom: 1px solid var(--border); }
-      .nav-links a { display: block; padding: 18px 28px; font-size: 13px; }
-      .nav-links a::after { display: none; }
-    }
+  /* Hero decoration */
+  .hero-deco {
+    position:relative; z-index:1;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-deco-inner {
+    width:min(380px,90%); aspect-ratio:1;
+    position:relative;
+  }
+  .deco-circle {
+    position:absolute; border-radius:50%;
+    transition:opacity 0.3s;
+  }
+  .deco-c1 {
+    inset:0;
+    background: radial-gradient(ellipse at 40% 40%, rgba(90,138,114,0.18) 0%, rgba(184,151,90,0.08) 50%, transparent 80%);
+  }
+  .deco-c2 {
+    inset:10%; border:1px solid var(--border-h);
+    animation: rotateSlow 20s linear infinite;
+  }
+  .deco-c3 {
+    inset:25%;
+    border:1px dashed rgba(184,151,90,0.3);
+    animation: rotateSlow 14s linear infinite reverse;
+  }
+  .deco-dots {
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle, var(--green-light) 1.5px, transparent 1.5px);
+    background-size:28px 28px;
+    mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 30%, transparent 100%);
+    opacity:0.25;
+  }
+  .deco-text {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+  }
+  .deco-label {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(22px,3vw,32px); font-weight:600; color:var(--green);
+    opacity:0.7; letter-spacing:2px;
+  }
+  .deco-sub { font-size:10px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; }
+  @keyframes rotateSlow { to { transform:rotate(360deg); } }
 
-    /* ─── HERO ─── */
-    #hero {
-      min-height: 100svh;
-      display: grid; place-items: center;
-      padding: clamp(80px,12vw,120px) clamp(24px,6vw,80px) clamp(60px,8vw,100px);
-      position: relative; overflow: hidden;
-      background:
-        radial-gradient(ellipse 60% 80% at 80% 20%, rgba(90,138,114,0.1) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,151,90,0.07) 0%, transparent 50%),
-        var(--ivory);
-    }
-    /* decorative botanical line */
-    #hero::before {
-      content: '';
-      position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
-      width: 280px; height: 560px;
-      background:
-        radial-gradient(ellipse 30px 80px at 50% 20%, rgba(90,138,114,0.15) 0%, transparent 100%),
-        radial-gradient(ellipse 20px 60px at 70% 55%, rgba(90,138,114,0.12) 0%, transparent 100%),
-        radial-gradient(ellipse 25px 70px at 30% 80%, rgba(90,138,114,0.1) 0%, transparent 100%);
-      pointer-events: none;
-    }
+  .scroll-line {
+    position:absolute; bottom:32px; left:clamp(24px,6vw,80px);
+    display:flex; align-items:center; gap:12px;
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--text-light);
+  }
+  .scroll-line::before {
+    content:''; width:48px; height:1px; background:var(--gold-light);
+    animation:scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity:0.5; width:48px; }
+    50%      { opacity:1;   width:64px; }
+  }
 
-    .hero-content { max-width: 640px; text-align: left; position: relative; z-index: 1; }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--gold); font-weight: 400; margin-bottom: 24px;
-    }
-    .hero-eyebrow::before {
-      content: ''; display: block; width: 32px; height: 1px; background: var(--gold);
-    }
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(40px, 7vw, 80px);
-      font-weight: 600; line-height: 1.05;
-      color: var(--green); margin-bottom: 8px; letter-spacing: -0.5px;
-    }
-    h1 em { font-style: italic; color: var(--gold); }
-    .hero-catch {
-      font-size: clamp(14px,2vw,17px);
-      color: var(--text-mid); margin-bottom: 32px; font-weight: 300;
-      line-height: 1.9;
-    }
-    .hero-desc {
-      font-size: 14px; color: var(--text-light); line-height: 1.95;
-      max-width: 440px; margin-bottom: 44px;
-    }
-    .cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
-    .cta-primary {
-      display: inline-block; background: var(--green);
-      color: var(--ivory); font-size: 12px; font-weight: 500;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 14px 36px; text-decoration: none;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    .cta-primary:hover { background: var(--green-mid); box-shadow: 0 4px 24px rgba(45,74,62,0.25); }
-    .cta-ghost {
-      display: inline-block; border: 1px solid var(--border-h);
-      color: var(--green); font-size: 12px; font-weight: 400;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 14px 36px; text-decoration: none;
-      transition: border-color 0.3s, color 0.3s, background 0.3s;
-    }
-    .cta-ghost:hover { background: var(--green-pale); border-color: var(--green); }
+  /* ════════════════════════════════
+     COMMON SECTION
+  ════════════════════════════════ */
+  .section-wrap { padding:clamp(72px,10vw,120px) clamp(24px,6vw,80px); }
+  .section-inner { max-width:1100px; margin:0 auto; }
+  .section-header { margin-bottom:clamp(40px,6vw,64px); }
+  .section-eyebrow {
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--gold); font-weight:400; margin-bottom:12px;
+  }
+  .section-eyebrow::before { content:''; width:24px; height:1px; background:var(--gold); }
+  h2 {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(26px,4vw,42px); font-weight:600;
+    color:var(--green); line-height:1.15; margin-bottom:12px;
+  }
+  .section-desc { font-size:14px; color:var(--text-light); max-width:480px; line-height:1.8; }
 
-    /* scroll line */
-    .scroll-line {
-      position: absolute; bottom: 32px; left: clamp(24px,6vw,80px);
-      display: flex; align-items: center; gap: 12px;
-      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--text-light);
-    }
-    .scroll-line::before {
-      content: ''; width: 48px; height: 1px; background: var(--gold-light);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%,100% { opacity: 0.5; width: 48px; }
-      50% { opacity: 1; width: 64px; }
-    }
+  /* ════════════════════════════════
+     PROJECTS
+  ════════════════════════════════ */
+  #projects { background:var(--surface); }
 
-    /* ─── SECTION COMMON ─── */
-    .section-wrap { padding: clamp(72px,10vw,120px) clamp(24px,6vw,80px); }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-    .section-header { margin-bottom: clamp(40px,6vw,64px); }
-    .section-eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--gold); font-weight: 400; margin-bottom: 12px;
-    }
-    .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
-    h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px,4vw,44px); font-weight: 600;
-      color: var(--green); line-height: 1.15; margin-bottom: 12px;
-    }
-    .section-desc { font-size: 14px; color: var(--text-light); max-width: 480px; }
+  .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:40px; }
+  .filter-btn {
+    padding:8px 20px; border:1px solid var(--border);
+    background:transparent; color:var(--text-light);
+    font-family:'Noto Sans JP',sans-serif;
+    font-size:12px; font-weight:400; letter-spacing:1px;
+    cursor:pointer; transition:all 0.25s;
+  }
+  .filter-btn.active { background:var(--green); border-color:var(--green); color:var(--ivory); }
+  .filter-btn:hover:not(.active) { border-color:var(--green); color:var(--green); background:var(--green-pale); }
 
-    /* ─── PROJECTS ─── */
-    #projects { background: var(--white); }
+  .cards-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(min(100%,320px),1fr));
+    gap:clamp(16px,2.5vw,28px);
+  }
 
-    /* Filter tabs */
-    .filter-bar {
-      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
-    }
-    .filter-btn {
-      padding: 8px 20px;
-      border: 1px solid var(--border);
-      background: transparent; color: var(--text-light);
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 12px; font-weight: 400; letter-spacing: 1px;
-      cursor: pointer; transition: all 0.25s;
-    }
-    .filter-btn.active {
-      background: var(--green); border-color: var(--green);
-      color: var(--ivory);
-    }
-    .filter-btn:hover:not(.active) {
-      border-color: var(--green); color: var(--green);
-      background: var(--green-pale);
-    }
+  /* Card */
+  .pcard {
+    background:var(--surface);
+    border:1px solid var(--border);
+    overflow:hidden; cursor:pointer;
+    display:flex; flex-direction:column;
+    transition:box-shadow 0.35s, transform 0.35s, border-color 0.3s;
+  }
+  .pcard:hover {
+    box-shadow:var(--shadow-lg);
+    transform:translateY(-8px);
+    border-color:var(--border-h);
+  }
+  .pcard-img { position:relative; overflow:hidden; aspect-ratio:16/10; flex-shrink:0; }
+  .pcard-img img {
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform 0.5s ease;
+  }
+  .pcard:hover .pcard-img img { transform:scale(1.07); }
+  .pcard-overlay {
+    position:absolute; inset:0;
+    background:rgba(45,74,62,0.82);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; transition:opacity 0.35s;
+  }
+  .pcard:hover .pcard-overlay { opacity:1; }
+  .overlay-text { color:var(--ivory); font-size:12px; letter-spacing:2px; text-transform:uppercase; }
+  .pcard-cat {
+    position:absolute; top:14px; left:14px;
+    font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase;
+    padding:4px 12px;
+    background:rgba(248,245,239,0.92); color:var(--green);
+    backdrop-filter:blur(4px);
+  }
+  [data-theme="dark"] .pcard-cat { background:rgba(20,25,24,0.88); color:var(--green); }
 
-    /* Cards grid */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-      gap: clamp(16px,2.5vw,28px);
-    }
+  .pcard-body { padding:clamp(16px,2vw,24px); flex:1; display:flex; flex-direction:column; gap:10px; }
+  .pcard-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:19px; font-weight:600; color:var(--green);
+    line-height:1.25;
+  }
+  .pcard-summary { font-size:13px; color:var(--text-mid); line-height:1.8; flex:1; }
+  .pcard-tags { display:flex; flex-wrap:wrap; gap:5px; }
+  .tag-chip {
+    font-size:10px; padding:3px 10px;
+    border:1px solid var(--border-h);
+    color:var(--green); background:var(--green-pale);
+    letter-spacing:0.3px;
+  }
+  .pcard-footer { margin-top:4px; }
+  .detail-btn {
+    display:inline-block; font-size:11px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold); font-weight:500;
+    border-bottom:1px solid rgba(184,151,90,0.4);
+    transition:color 0.2s, border-color 0.2s;
+    text-decoration:none; cursor:pointer; background:none; border-left:none; border-top:none; border-right:none; padding:0;
+    font-family:'Noto Sans JP',sans-serif;
+  }
+  .detail-btn:hover { color:var(--green); border-bottom-color:var(--green); }
 
-    /* Project card */
-    .pcard {
-      background: var(--white);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      cursor: pointer;
-      transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.3s;
-      opacity: 0; transform: translateY(24px);
-    }
-    .pcard.show { animation: fadeUp 0.5s ease forwards; }
-    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-    .pcard:hover {
-      box-shadow: var(--shadow-h);
-      transform: translateY(-6px);
-      border-color: var(--border-h);
-    }
+  /* ════════════════════════════════
+     MODAL
+  ════════════════════════════════ */
+  .modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(20,25,24,0.92);
+    backdrop-filter:blur(12px);
+    z-index:500;
+    justify-content:center; align-items:center; padding:24px;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal-box {
+    background:var(--surface);
+    max-width:900px; width:100%;
+    max-height:90vh; overflow-y:auto;
+    display:flex; flex-direction:column;
+    position:relative;
+    animation:modalIn 0.3s ease;
+  }
+  @keyframes modalIn { from { opacity:0; transform:scale(0.96) translateY(12px); } to { opacity:1; transform:none; } }
+  @media (min-width:680px) { .modal-box { flex-direction:row; max-height:82vh; } }
+  .modal-img-wrap { flex:0 0 auto; width:100%; }
+  @media (min-width:680px) { .modal-img-wrap { width:52%; } }
+  .modal-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+  .modal-body { padding:clamp(24px,4vw,40px); flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:16px; }
+  .modal-cat { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+  .modal-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:26px; font-weight:600; color:var(--green); line-height:1.2;
+  }
+  .modal-summary { font-size:14px; color:var(--text-mid); line-height:1.9; }
+  .modal-section { display:flex; flex-direction:column; gap:4px; }
+  .modal-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+  .modal-val { font-size:13px; color:var(--text-mid); line-height:1.8; }
+  .modal-close {
+    position:absolute; top:14px; right:14px;
+    width:38px; height:38px;
+    background:var(--ivory-dark); border:1px solid var(--border);
+    color:var(--green); font-size:18px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.2s; z-index:1;
+  }
+  .modal-close:hover { background:var(--green-pale); }
 
-    /* Image area */
-    .pcard-img {
-      position: relative; overflow: hidden;
-      aspect-ratio: 4/3;
-    }
-    .pcard-img img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      transition: transform 0.5s ease;
-    }
-    .pcard:hover .pcard-img img { transform: scale(1.05); }
+  /* ════════════════════════════════
+     ABOUT
+  ════════════════════════════════ */
+  #about { background:var(--ivory-dark); }
+  .about-grid {
+    display:grid; grid-template-columns:1fr;
+    gap:clamp(36px,5vw,64px); align-items:start;
+  }
+  @media (min-width:760px) { .about-grid { grid-template-columns:1fr 1fr; } }
+  .about-text h3 {
+    font-family:'Cormorant Garamond',serif;
+    font-size:22px; color:var(--green); margin-bottom:20px;
+  }
+  .about-text p { font-size:14px; color:var(--text-mid); line-height:2.1; margin-bottom:18px; }
+  .about-text p strong { color:var(--green); font-weight:500; }
+  .about-values { display:flex; flex-direction:column; gap:14px; }
+  .value-item {
+    padding:18px 22px;
+    border-left:2px solid var(--gold-light);
+    background:var(--white);
+    transition:border-color 0.25s, transform 0.25s;
+  }
+  .value-item:hover { border-color:var(--green); transform:translateX(4px); }
+  .value-title { font-size:12px; font-weight:500; color:var(--green); letter-spacing:1px; margin-bottom:4px; }
+  .value-desc { font-size:13px; color:var(--text-light); line-height:1.7; }
 
-    /* overlay on hover */
-    .pcard-overlay {
-      position: absolute; inset: 0;
-      background: rgba(45,74,62,0.82);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.35s ease;
-    }
-    .pcard:hover .pcard-overlay { opacity: 1; }
-    .overlay-text {
-      color: var(--ivory); font-size: 12px; letter-spacing: 2px;
-      text-transform: uppercase; font-weight: 400;
-    }
+  /* ════════════════════════════════
+     SKILLS
+  ════════════════════════════════ */
+  #skills { background:var(--green); }
+  #skills h2 { color:var(--ivory); }
+  #skills .section-desc { color:rgba(248,245,239,0.55); }
+  [data-theme="dark"] #skills { background:var(--green-pale); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  [data-theme="dark"] #skills h2 { color:var(--green); }
+  [data-theme="dark"] #skills .section-desc { color:var(--text-light); }
 
-    /* tag on image */
-    .pcard-tag {
-      position: absolute; top: 14px; left: 14px;
-      font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 4px 12px;
-      background: rgba(248,245,239,0.92);
-      color: var(--green);
-      backdrop-filter: blur(4px);
-    }
+  .skills-list { display:flex; flex-direction:column; gap:24px; margin-top:48px; max-width:680px; }
+  .skill-row { display:flex; flex-direction:column; gap:8px; }
+  .skill-meta { display:flex; justify-content:space-between; align-items:center; }
+  .skill-name { font-size:13px; font-weight:500; color:var(--ivory); letter-spacing:0.5px; }
+  [data-theme="dark"] .skill-name { color:var(--green); }
+  .skill-pct { font-size:12px; color:var(--gold-light); font-weight:400; }
+  .skill-track {
+    height:5px; background:rgba(248,245,239,0.15); border-radius:3px; overflow:hidden;
+  }
+  [data-theme="dark"] .skill-track { background:var(--border); }
+  .skill-bar {
+    height:100%; border-radius:3px;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+    width:0; transition:width 1.1s cubic-bezier(0.22,0.68,0,1.2);
+  }
 
-    /* card body */
-    .pcard-body { padding: clamp(18px,2.5vw,28px); }
-    .pcard-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; font-weight: 600; color: var(--green);
-      margin-bottom: 8px; line-height: 1.2;
-    }
-    .pcard-summary { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-bottom: 16px; }
+  /* ════════════════════════════════
+     CONTACT
+  ════════════════════════════════ */
+  #contact { background:var(--surface); text-align:center; }
+  .contact-inner { max-width:520px; margin:0 auto; }
+  .contact-inner p { font-size:14px; color:var(--text-light); line-height:2; margin-top:12px; }
+  .contact-links { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:36px; }
+  .contact-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 36px; text-decoration:none; font-weight:400;
+    font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    transition:all 0.3s;
+  }
+  .contact-btn.primary { background:var(--green); color:var(--ivory); }
+  .contact-btn.primary:hover { background:var(--green-mid); box-shadow:var(--shadow-md); transform:translateY(-2px); }
 
-    .pcard-meta { display: flex; flex-direction: column; gap: 8px; }
-    .meta-row { display: flex; gap: 8px; align-items: flex-start; }
-    .meta-label {
-      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--gold); font-weight: 500; white-space: nowrap;
-      padding-top: 1px; min-width: 52px;
-    }
-    .meta-value { font-size: 12px; color: var(--text-light); line-height: 1.6; }
-    .tool-chips { display: flex; flex-wrap: wrap; gap: 5px; }
-    .chip {
-      font-size: 10px; padding: 2px 10px;
-      border: 1px solid var(--border-h);
-      color: var(--green); background: var(--green-pale);
-      letter-spacing: 0.5px;
-    }
+  /* ════════════════════════════════
+     FOOTER
+  ════════════════════════════════ */
+  footer {
+    background:var(--green);
+    padding:clamp(32px,4vw,48px) clamp(24px,6vw,80px);
+  }
+  [data-theme="dark"] footer { background:var(--ivory-dark); border-top:1px solid var(--border); }
+  .footer-inner {
+    max-width:1100px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:flex-end;
+    flex-wrap:wrap; gap:24px;
+  }
+  .footer-brand .footer-name {
+    font-family:'Cormorant Garamond',serif;
+    font-size:22px; font-weight:600; color:var(--ivory); letter-spacing:1px;
+  }
+  [data-theme="dark"] .footer-brand .footer-name { color:var(--green); }
+  .footer-brand .footer-tagline { font-size:10px; letter-spacing:3px; color:var(--gold-light); text-transform:uppercase; margin-top:2px; }
+  .footer-right { text-align:right; }
+  .footer-gh {
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--gold-light); text-decoration:none; font-size:12px; letter-spacing:1px;
+    transition:color 0.2s;
+  }
+  .footer-gh:hover { color:var(--ivory); }
+  [data-theme="dark"] .footer-gh { color:var(--gold); }
+  [data-theme="dark"] .footer-gh:hover { color:var(--green); }
+  .footer-copy { font-size:11px; color:rgba(248,245,239,0.35); margin-top:8px; letter-spacing:1px; }
+  [data-theme="dark"] .footer-copy { color:var(--text-light); }
 
-    /* ─── MODAL ─── */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(42,42,42,0.92);
-      backdrop-filter: blur(10px);
-      z-index: 400;
-      justify-content: center; align-items: center; padding: 24px;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal-inner {
-      background: var(--white);
-      max-width: 900px; width: 100%;
-      max-height: 92vh; overflow-y: auto;
-      display: flex; flex-direction: column;
-    }
-    @media (min-width: 700px) {
-      .modal-inner { flex-direction: row; max-height: 82vh; }
-    }
-    .modal-img-wrap {
-      flex: 0 0 auto; width: 100%;
-    }
-    @media (min-width: 700px) { .modal-img-wrap { width: 56%; } }
-    .modal-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .modal-body { padding: clamp(24px,4vw,40px); flex: 1; overflow-y: auto; }
-    .modal-tag {
-      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 10px; display: block;
-    }
-    .modal-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px; font-weight: 600; color: var(--green);
-      margin-bottom: 14px; line-height: 1.2;
-    }
-    .modal-summary { font-size: 14px; color: var(--text-mid); line-height: 1.9; margin-bottom: 24px; }
-    .modal-section { margin-bottom: 18px; }
-    .modal-section-label {
-      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 6px; display: block;
-    }
-    .modal-section p { font-size: 13px; color: var(--text-mid); line-height: 1.8; }
-    .modal-close {
-      position: absolute; top: 16px; right: 16px;
-      width: 40px; height: 40px;
-      background: var(--ivory); border: 1px solid var(--border);
-      color: var(--green); font-size: 18px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .modal-close:hover { background: var(--green-pale); }
+  /* ════════════════════════════════
+     SCROLL ANIMATIONS
+  ════════════════════════════════ */
+  .anim-fade-up   { opacity:0; transform:translateY(32px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .anim-fade-in   { opacity:0;                              transition:opacity 0.8s ease; }
+  .anim-scale-in  { opacity:0; transform:scale(0.94);       transition:opacity 0.6s ease, transform 0.6s ease; }
+  .anim-visible   { opacity:1; transform:none; }
+  .delay-1 { transition-delay:0.1s; }
+  .delay-2 { transition-delay:0.2s; }
+  .delay-3 { transition-delay:0.3s; }
+  .delay-4 { transition-delay:0.4s; }
 
-    /* ─── SKILLS ─── */
-    #skills { background: var(--green); }
-    #skills h2 { color: var(--ivory); }
-    #skills .section-desc { color: rgba(248,245,239,0.6); }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
-      gap: 1px; background: rgba(248,245,239,0.12);
-      border: 1px solid rgba(248,245,239,0.12);
-      margin-top: 48px;
-    }
-    .skill-item {
-      background: var(--green);
-      padding: clamp(20px,3vw,32px);
-      transition: background 0.3s;
-    }
-    .skill-item:hover { background: var(--green-mid); }
-    .skill-icon { font-size: 22px; margin-bottom: 10px; }
-    .skill-name {
-      font-size: 13px; font-weight: 500; color: var(--ivory);
-      margin-bottom: 4px; letter-spacing: 0.5px;
-    }
-    .skill-desc { font-size: 11px; color: rgba(248,245,239,0.55); line-height: 1.7; }
-
-    /* ─── ABOUT ─── */
-    #about { background: var(--ivory-dark); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: clamp(36px,5vw,64px);
-      align-items: start;
-      margin-top: 0;
-    }
-    @media (min-width: 760px) {
-      .about-grid { grid-template-columns: 1fr 1fr; }
-    }
-    .about-text h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; color: var(--green); margin-bottom: 16px;
-    }
-    .about-text p { font-size: 14px; color: var(--text-mid); line-height: 2; margin-bottom: 16px; }
-    .about-text p strong { color: var(--green); font-weight: 500; }
-
-    .about-values { display: flex; flex-direction: column; gap: 16px; }
-    .value-item {
-      padding: 20px 24px;
-      border-left: 2px solid var(--gold-light);
-      background: var(--white);
-    }
-    .value-title { font-size: 12px; font-weight: 500; color: var(--green); letter-spacing: 1px; margin-bottom: 4px; }
-    .value-desc { font-size: 13px; color: var(--text-light); line-height: 1.7; }
-
-    /* ─── CONTACT ─── */
-    #contact { background: var(--white); text-align: center; }
-    .contact-inner { max-width: 520px; margin: 0 auto; }
-    .contact-inner p { font-size: 14px; color: var(--text-light); line-height: 2; margin-top: 12px; }
-    .contact-links {
-      display: flex; justify-content: center; gap: 12px;
-      flex-wrap: wrap; margin-top: 36px;
-    }
-    .contact-btn {
-      display: inline-block; padding: 14px 36px;
-      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
-      text-decoration: none; font-weight: 400;
-      transition: all 0.3s;
-    }
-    .contact-btn.primary {
-      background: var(--green); color: var(--ivory);
-    }
-    .contact-btn.primary:hover { background: var(--green-mid); box-shadow: 0 4px 20px rgba(45,74,62,0.2); }
-    .contact-btn.ghost {
-      border: 1px solid var(--border-h); color: var(--green);
-    }
-    .contact-btn.ghost:hover { background: var(--green-pale); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--green);
-      text-align: center; padding: 28px 24px;
-      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-      color: rgba(248,245,239,0.4);
-    }
-    footer span { color: var(--gold-light); }
-
-    /* ─── FADE-IN ─── */
-    .fade-up {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
-    .fade-up.delay-1 { transition-delay: 0.1s; }
-    .fade-up.delay-2 { transition-delay: 0.2s; }
-    .fade-up.delay-3 { transition-delay: 0.3s; }
+  /* Card entrance */
+  .pcard { opacity:0; transform:translateY(24px); }
+  .pcard.show { animation:cardIn 0.5s ease forwards; }
+  @keyframes cardIn { to { opacity:1; transform:none; } }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══════════ NAV ══════════ -->
 <nav>
   <div class="logo-wrap">
     <div class="logo-main">Bloom with AI</div>
     <div class="logo-sub">AI Web Creator</div>
   </div>
-  <button class="hamburger" id="hamburger" aria-label="メニュー">
-    <span></span><span></span><span></span>
-  </button>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-right">
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button id="theme-toggle" aria-label="ダークモード切替">🌙</button>
+    <button class="hamburger" id="hamburger" aria-label="メニュー">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-<!-- HERO -->
+<!-- ══════════ HERO ══════════ -->
 <section id="hero">
   <div class="hero-content">
-    <div class="hero-eyebrow">AI Web Creator</div>
-    <h1>Bloom<br>with <em>AI</em></h1>
-    <p class="hero-catch">AIとともに、想いをカタチに。</p>
-    <p class="hero-desc">
-      Claude Code を中心に AI ツールを活用し、<br>
-      企画・デザイン・実装まで一貫して制作しています。
-    </p>
-    <div class="cta-group">
-      <a href="#projects" class="cta-primary">Projects を見る</a>
-      <a href="#contact" class="cta-ghost">お問い合わせ</a>
+    <div class="hero-eyebrow anim-fade-up">AI Web Creator</div>
+    <h1 class="anim-fade-up delay-1">Bloom<br>with <em>AI</em></h1>
+    <p class="hero-sub anim-fade-up delay-2">AIを活用して、アイデアをWebサイト・自動化ツール・業務改善へ。</p>
+    <p class="hero-desc anim-fade-up delay-3">Claude Code を中心に、企画・デザイン・実装まで一貫して制作しています。</p>
+    <div class="cta-group anim-fade-up delay-4">
+      <a href="#projects" class="btn-primary">PROJECTSを見る</a>
+      <a href="https://github.com/azu-tama1031-coder" target="_blank" rel="noopener" class="btn-ghost">GitHubを見る</a>
+    </div>
+  </div>
+  <div class="hero-deco anim-fade-in delay-2">
+    <div class="hero-deco-inner">
+      <div class="deco-circle deco-c1"></div>
+      <div class="deco-circle deco-c2"></div>
+      <div class="deco-circle deco-c3"></div>
+      <div class="deco-dots"></div>
+      <div class="deco-text">
+        <div class="deco-label">Bloom<br>with AI</div>
+        <div class="deco-sub" style="margin-top:8px">Web Creator</div>
+      </div>
     </div>
   </div>
   <div class="scroll-line">scroll</div>
 </section>
 
-<!-- PROJECTS -->
+<!-- ══════════ PROJECTS ══════════ -->
 <section id="projects" class="section-wrap">
   <div class="section-inner">
-    <div class="section-header fade-up">
+    <div class="section-header anim-fade-up">
       <div class="section-eyebrow">Projects</div>
       <h2>制作実績</h2>
-      <p class="section-desc">AI を活用して制作・構築したプロジェクトをご紹介します。</p>
+      <p class="section-desc">AIを活用して制作・構築したプロジェクトをご紹介します。カードをクリックすると詳細を確認できます。</p>
     </div>
-
-    <div class="filter-bar fade-up delay-1">
+    <div class="filter-bar anim-fade-up delay-1">
       <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="初級">Starter</button>
-      <button class="filter-btn" data-filter="中級">Standard</button>
-      <button class="filter-btn" data-filter="上級">Advanced</button>
-      <button class="filter-btn" data-filter="SubAgent">SubAgent</button>
+      <button class="filter-btn" data-filter="Webサイト">Webサイト</button>
+      <button class="filter-btn" data-filter="自動化">自動化</button>
       <button class="filter-btn" data-filter="Skills">Skills</button>
+      <button class="filter-btn" data-filter="SubAgent">SubAgent</button>
     </div>
-
     <div class="cards-grid" id="card-grid"></div>
   </div>
 </section>
 
-<!-- SKILLS -->
-<section id="skills" class="section-wrap">
-  <div class="section-inner">
-    <div class="section-header fade-up">
-      <div class="section-eyebrow" style="color:var(--gold-light)">Skills</div>
-      <h2>スキル &amp; ツール</h2>
-      <p class="section-desc" style="color:rgba(248,245,239,0.55)">AI ツールと技術を組み合わせ、アイデアを形にします。</p>
-    </div>
-    <div class="skills-grid fade-up delay-1">
-      <div class="skill-item">
-        <div class="skill-icon">✦</div>
-        <div class="skill-name">Claude Code</div>
-        <div class="skill-desc">AIエージェントの構築・自動化・プロンプト設計</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-icon">◈</div>
-        <div class="skill-name">ChatGPT</div>
-        <div class="skill-desc">アイデア出し・文章生成・業務効率化</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-icon">❋</div>
-        <div class="skill-name">Gemini</div>
-        <div class="skill-desc">マルチモーダル活用・リサーチ支援</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-icon">◇</div>
-        <div class="skill-name">HTML / CSS</div>
-        <div class="skill-desc">レスポンシブなWebサイト制作</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-icon">⬡</div>
-        <div class="skill-name">Git</div>
-        <div class="skill-desc">バージョン管理・変更履歴の管理</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-icon">△</div>
-        <div class="skill-name">GitHub</div>
-        <div class="skill-desc">リポジトリ管理・GitHub Pages での公開</div>
-      </div>
-      <div class="skill-item">
-        <div class="skill-icon">○</div>
-        <div class="skill-name">VS Code</div>
-        <div class="skill-desc">コード編集・拡張機能を活用した開発環境</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
+<!-- ══════════ ABOUT ══════════ -->
 <section id="about" class="section-wrap">
   <div class="section-inner">
-    <div class="section-header fade-up">
+    <div class="section-header anim-fade-up">
       <div class="section-eyebrow">About Me</div>
       <h2>About</h2>
     </div>
     <div class="about-grid">
-      <div class="about-text fade-up delay-1">
+      <div class="about-text anim-fade-up delay-1">
         <h3>はじめまして。</h3>
         <p>
-          AIを活用したWeb制作や業務効率化に興味を持ち、<strong>Claude Code</strong> を中心にさまざまなAIツールを活用しながら学習・制作に取り組んでいます。
+          AIツールを活用したWeb制作・業務効率化に取り組んでいます。
+          <strong>Claude Code</strong> を中心に、Webサイト制作、自動化ツール、カスタムスキル開発を学びながら制作しています。
         </p>
         <p>
-          このポートフォリオでは、企画・デザイン・実装まで一貫して制作した作品を掲載しています。AIの力を活かしながらも、「見やすさ」「使いやすさ」「伝わりやすさ」を大切にし、一つひとつ丁寧に仕上げることを心掛けています。
+          企画からデザイン、実装まで一貫して手がけることを得意としています。
+          AIの力を活かしながらも、「見やすさ」「使いやすさ」「伝わりやすさ」を大切にし、
+          一つひとつ丁寧に仕上げることを心掛けています。
         </p>
         <p>
           新しい技術を楽しみながら学び続け、より良いWebサイトやサービスを制作できるクリエイターを目指しています。
         </p>
       </div>
-      <div class="about-values fade-up delay-2">
+      <div class="about-values anim-fade-up delay-2">
         <div class="value-item">
           <div class="value-title">✦ 見やすさを大切に</div>
           <div class="value-desc">情報の整理と余白を意識し、見ていて気持ちのよいデザインを心がけています。</div>
@@ -599,281 +661,283 @@
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="section-wrap">
+<!-- ══════════ SKILLS ══════════ -->
+<section id="skills" class="section-wrap">
   <div class="section-inner">
-    <div class="contact-inner fade-up">
-      <div class="section-eyebrow" style="justify-content:center">Contact</div>
-      <h2>お問い合わせ</h2>
-      <p>
-        お仕事のご相談・コラボレーション・制作のご依頼など、<br>
-        どうぞお気軽にご連絡ください。
-      </p>
-      <p style="margin-top:16px;font-size:14px;color:var(--text-mid)">
-        お問い合わせは GitHub よりお願いいたします。
-      </p>
-      <div class="contact-links">
-        <a href="https://github.com/azu-tama1031-coder" target="_blank" rel="noopener" class="contact-btn primary">GitHub を開く</a>
+    <div class="section-header anim-fade-up">
+      <div class="section-eyebrow" style="color:var(--gold-light)">Skills</div>
+      <h2>スキル & ツール</h2>
+      <p class="section-desc">AIツールと技術を組み合わせ、アイデアを形にします。</p>
+    </div>
+    <div class="skills-list anim-fade-up delay-1">
+      <div class="skill-row">
+        <div class="skill-meta">
+          <span class="skill-name">Claude Code</span>
+          <span class="skill-pct">95%</span>
+        </div>
+        <div class="skill-track"><div class="skill-bar" data-width="95"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-meta">
+          <span class="skill-name">AI 活用設計</span>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-track"><div class="skill-bar" data-width="90"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-meta">
+          <span class="skill-name">HTML / CSS</span>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-track"><div class="skill-bar" data-width="90"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-meta">
+          <span class="skill-name">Git / GitHub</span>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-track"><div class="skill-bar" data-width="80"></div></div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-meta">
+          <span class="skill-name">JavaScript</span>
+          <span class="skill-pct">75%</span>
+        </div>
+        <div class="skill-track"><div class="skill-bar" data-width="75"></div></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="section-wrap">
+  <div class="section-inner">
+    <div class="contact-inner anim-fade-up">
+      <div class="section-eyebrow" style="justify-content:center">Contact</div>
+      <h2>お問い合わせ</h2>
+      <p>お仕事のご相談・コラボレーション・制作のご依頼など、<br>どうぞお気軽にご連絡ください。</p>
+      <p style="margin-top:16px;font-size:14px;color:var(--text-mid)">
+        お問い合わせは GitHub よりお願いいたします。
+      </p>
+      <div class="contact-links">
+        <a href="https://github.com/azu-tama1031-coder" target="_blank" rel="noopener" class="contact-btn primary">
+          GitHub を開く
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
 <footer>
-  © 2026 <span>Bloom with AI</span> — Crafted with Claude Code
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Bloom with AI</div>
+      <div class="footer-tagline">AI Web Creator &amp; Engineer</div>
+    </div>
+    <div class="footer-right">
+      <a href="https://github.com/azu-tama1031-coder" target="_blank" rel="noopener" class="footer-gh">
+        GitHub →
+      </a>
+      <div class="footer-copy">© 2026 Bloom with AI</div>
+    </div>
+  </div>
 </footer>
 
-<!-- MODAL -->
+<!-- ══════════ MODAL ══════════ -->
 <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
-  <button class="modal-close" id="modal-close" aria-label="閉じる">✕</button>
-  <div class="modal-inner" id="modal-inner">
-    <div class="modal-img-wrap">
-      <img id="modal-img" src="" alt="">
-    </div>
+  <div class="modal-box" id="modal-box">
+    <button class="modal-close" id="modal-close" aria-label="閉じる">✕</button>
+    <div class="modal-img-wrap"><img id="modal-img" src="" alt=""></div>
     <div class="modal-body">
-      <span class="modal-tag" id="modal-tag"></span>
+      <div class="modal-cat" id="modal-cat"></div>
       <div class="modal-title" id="modal-title"></div>
       <p class="modal-summary" id="modal-summary"></p>
       <div class="modal-section">
-        <span class="modal-section-label">使用ツール</span>
-        <p id="modal-tools"></p>
+        <div class="modal-label">使用ツール</div>
+        <div class="modal-val" id="modal-tools"></div>
       </div>
       <div class="modal-section">
-        <span class="modal-section-label">工夫した点</span>
-        <p id="modal-point"></p>
+        <div class="modal-label">工夫した点</div>
+        <div class="modal-val" id="modal-point"></div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* ── DATA ── */
+/* ──────────────────────────────
+   DATA
+────────────────────────────── */
 const items = [
-  {
-    file: "claudeC初級.png", label: "Claude Code — 基本操作", tag: "初級",
-    summary: "Claude Code CLI を使ったファイル操作・コマンド実行の基礎を実践。AI との対話を通じてコードを生成・修正するワークフローを確立しました。",
-    tools: "Claude Code, PowerShell",
-    point: "指示の粒度を調整し、AI が最適な出力を返せるよう試行錯誤しながらプロンプトを洗練させました。"
-  },
-  {
-    file: "初級モード.png", label: "初期設定 & 環境構築", tag: "初級",
-    summary: "Claude Code の初期設定から作業環境の整備まで、快適な AI 開発フローを構築しました。",
-    tools: "Claude Code, Git",
-    point: "再現性のある環境設定にすることで、次のプロジェクトへの展開をスムーズにしました。"
-  },
-  {
-    file: "C中級.png", label: "Claude Code 中級実践", tag: "中級",
-    summary: "より複雑なタスクへの応用。複数ファイルにまたがる処理や、条件分岐を含む自動化を実現しました。",
-    tools: "Claude Code, Python",
-    point: "タスクを細かく分解して AI に渡すことで、精度と再現性を大幅に向上させました。"
-  },
-  {
-    file: "C中級1.png", label: "中級ワークフロー構築①", tag: "中級",
-    summary: "繰り返し作業を自動化するワークフローを設計。作業時間の大幅な短縮を実現しました。",
-    tools: "Claude Code, Bash",
-    point: "処理の流れを図示してから実装することで、手戻りなくスムーズに完成しました。"
-  },
-  {
-    file: "C中級①.png", label: "中級ワークフロー構築②", tag: "中級",
-    summary: "前プロジェクトを発展させ、エラーハンドリングと出力品質の改善に取り組みました。",
-    tools: "Claude Code, Python",
-    point: "失敗ケースを事前に想定し、堅牢な処理フローを設計しました。"
-  },
-  {
-    file: "C上級①.png", label: "上級自動化 — Phase 1", tag: "上級",
-    summary: "複数コンポーネントを組み合わせた高度な自動化パイプラインを構築。エンドツーエンドで動作するシステムを実現しました。",
-    tools: "Claude Code, Python, pytest",
-    point: "各コンポーネントを独立してテストし、統合時のリスクを最小化しました。"
-  },
-  {
-    file: "C上級②.png", label: "上級自動化 — Phase 2", tag: "上級",
-    summary: "Phase 1 を拡張し、より多くのユースケースに対応できる汎用性の高いシステムへ進化させました。",
-    tools: "Claude Code, Python",
-    point: "抽象化レイヤーを設けることで、変更に強い設計を実現しました。"
-  },
-  {
-    file: "C上級③.png", label: "上級自動化 — Phase 3", tag: "上級",
-    summary: "最終フェーズとして、パフォーマンスの最適化とドキュメント整備を行いました。",
-    tools: "Claude Code, Python, Git",
-    point: "自動テストを整備し、品質を担保しながら継続的に改善できる体制を整えました。"
-  },
-  {
-    file: "上級①.png", label: "高度なタスク設計①", tag: "上級",
-    summary: "複雑な要件を整理し、AI が正確に処理できる構造化されたプロンプト設計を行いました。",
-    tools: "Claude Code",
-    point: "要件をツリー構造で整理し、AI への指示を階層的に構成しました。"
-  },
-  {
-    file: "上級②.png", label: "高度なタスク設計②", tag: "上級",
-    summary: "複数のサブタスクを連鎖させた処理フローを設計し、複雑な目標を自動達成するシステムを構築しました。",
-    tools: "Claude Code, Bash",
-    point: "各ステップの出力を次の入力に自動接続することで、シームレスな処理を実現しました。"
-  },
-  {
-    file: "上級③.png", label: "高度なタスク設計③", tag: "上級",
-    summary: "これまでの知見を集約し、最も効率的かつ高品質な成果物を生み出すフローを確立しました。",
-    tools: "Claude Code, Python, pytest",
-    point: "品質チェックポイントを各段階に設け、最終成果物の信頼性を高めました。"
-  },
-  {
-    file: "課題並列.png", label: "並列エージェント処理", tag: "上級",
-    summary: "複数の AI エージェントを並列で実行し、処理時間を大幅に短縮する手法を実践しました。",
-    tools: "Claude Code, SubAgent",
-    point: "タスクの依存関係を分析し、並列実行可能な部分を最大化することで効率を追求しました。"
-  },
-  {
-    file: "課題分離.png", label: "タスク分離設計", tag: "上級",
-    summary: "大きなタスクを適切な粒度に分解し、各エージェントが最大のパフォーマンスを発揮できる設計を実現しました。",
-    tools: "Claude Code, SubAgent",
-    point: "関心の分離原則を AI 設計に応用し、保守性と拡張性を両立しました。"
-  },
-  {
-    file: "subA1.png", label: "SubAgent 設計①", tag: "SubAgent",
-    summary: "専門化された SubAgent を設計し、特定の役割に特化した高精度な AI 処理を実現しました。",
-    tools: "Claude Code, SubAgent",
-    point: "役割を明確に定義することで、各 SubAgent の出力品質が向上しました。"
-  },
-  {
-    file: "subA2.png", label: "SubAgent 設計②", tag: "SubAgent",
-    summary: "複数の SubAgent が連携して一つの目標を達成する、オーケストレーション設計を実践しました。",
-    tools: "Claude Code, SubAgent",
-    point: "Agent 間の通信プロトコルを設計し、スムーズな情報受け渡しを実現しました。"
-  },
-  {
-    file: "subA3.png", label: "SubAgent 設計③", tag: "SubAgent",
-    summary: "エラー発生時の再試行・フォールバック処理を備えた、堅牢な SubAgent システムを構築しました。",
-    tools: "Claude Code, SubAgent, Python",
-    point: "異常系のハンドリングを組み込むことで、本番環境でも安定動作するシステムにしました。"
-  },
-  {
-    file: "subA4.png", label: "SubAgent 設計④", tag: "SubAgent",
-    summary: "これまでの SubAgent 設計の集大成として、複雑なビジネスロジックを処理するマルチエージェントシステムを実現しました。",
-    tools: "Claude Code, SubAgent, Python",
-    point: "設計パターンを標準化し、再利用性の高い SubAgent ライブラリを構築しました。"
-  },
-  {
-    file: "サイドチャット.png", label: "サイドチャット統合", tag: "SubAgent",
-    summary: "メイン処理と並行してサイドチャネルで情報を収集・処理するアーキテクチャを設計しました。",
-    tools: "Claude Code, SubAgent",
-    point: "非同期処理の設計により、ユーザー体験を損なわずに高度な処理を実現しました。"
-  },
-  {
-    file: "ペイン.png", label: "マルチペイン設計", tag: "SubAgent",
-    summary: "複数のペインで並行して異なるタスクを処理する、効率的な作業環境を構築しました。",
-    tools: "Claude Code, SubAgent",
-    point: "視覚的な情報整理と処理の並列化を組み合わせ、生産性を最大化しました。"
-  },
-  {
-    file: "skills初級.png", label: "Skills 作成 — 基礎", tag: "Skills",
-    summary: "Claude Code のカスタム Skills を初めて作成。繰り返し使うコマンドをスキルとして定義し、作業を効率化しました。",
-    tools: "Claude Code, Skills",
-    point: "よく使うパターンをスキル化することで、作業速度と一貫性が格段に向上しました。"
-  },
-  {
-    file: "skills中級.png", label: "Skills 作成 — 応用", tag: "Skills",
-    summary: "より複雑なロジックを含む Skills を設計。条件分岐や変数を活用した高度なスキルを実装しました。",
-    tools: "Claude Code, Skills",
-    point: "スキルのパラメータ化により、多様なシチュエーションに対応できる汎用スキルを作成しました。"
-  },
-  {
-    file: "skills上級①.png", label: "Skills 上級設計①", tag: "Skills",
-    summary: "複数の Skills を連鎖させた高度なワークフロー自動化を実現しました。",
-    tools: "Claude Code, Skills, Python",
-    point: "スキルのモジュール化により、組み合わせることで無限のバリエーションを生み出せる設計にしました。"
-  },
-  {
-    file: "skills上級②.png", label: "Skills 上級設計②", tag: "Skills",
-    summary: "外部 API と連携する Skills を設計し、AI の機能をリアルタイムデータで強化しました。",
-    tools: "Claude Code, Skills, MCP",
-    point: "API のレスポンスを動的に Skills に組み込む設計で、常に最新情報を活用できるようにしました。"
-  },
-  {
-    file: "skills上級③.png", label: "Skills 上級設計③", tag: "Skills",
-    summary: "チームでの利用を想定した、ドキュメントと再利用性を重視した Skills ライブラリを構築しました。",
-    tools: "Claude Code, Skills, Git",
-    point: "Skills の仕様をドキュメント化し、他者が迷わず使えるライブラリとして整備しました。"
-  },
-  {
-    file: "skills上級④.png", label: "Skills 上級設計④", tag: "Skills",
-    summary: "パフォーマンステストを組み込んだ Skills を設計し、品質担保のプロセスを自動化しました。",
-    tools: "Claude Code, Skills, pytest",
-    point: "テスト駆動で Skills を開発するアプローチにより、高品質な成果物を効率的に実現しました。"
-  },
-  {
-    file: "スキル①.png", label: "カスタムスキル①", tag: "Skills",
-    summary: "日常的な開発作業を自動化するカスタムスキルを設計・実装しました。",
-    tools: "Claude Code, Skills",
-    point: "使用頻度の高い作業を分析し、最もインパクトの大きい部分から自動化を進めました。"
-  },
-  {
-    file: "スキル②.png", label: "カスタムスキル②", tag: "Skills",
-    summary: "コードレビューを自動化するスキルを作成。AI が一定の品質基準でコードをチェックする仕組みを構築しました。",
-    tools: "Claude Code, Skills",
-    point: "レビュー観点をスキルに組み込むことで、均一な品質チェックを自動化しました。"
-  },
-  {
-    file: "スキル③.png", label: "カスタムスキル③", tag: "Skills",
-    summary: "ドキュメント生成を自動化するスキルを開発。コードから自動でドキュメントを生成するフローを実現しました。",
-    tools: "Claude Code, Skills, Python",
-    point: "テンプレートを設計し、一貫性のあるドキュメントが自動生成される仕組みを構築しました。"
-  },
-  {
-    file: "スキル上級①.png", label: "上級カスタムスキル①", tag: "Skills",
-    summary: "複数のスキルを組み合わせた統合ワークフローを設計。プロジェクト全体の自動化を実現しました。",
-    tools: "Claude Code, Skills, Python, Git",
-    point: "スキルの依存関係を管理し、正しい順序で実行される仕組みを設計しました。"
-  },
-  {
-    file: "スキル上級②.png", label: "上級カスタムスキル②", tag: "Skills",
-    summary: "AI の推論能力を最大限に引き出す高度なスキル設計の集大成として、複雑なビジネスロジックを自動化しました。",
-    tools: "Claude Code, Skills, Python, MCP",
-    point: "スキルの組み合わせ方に創意工夫を凝らし、単純な自動化を超えた知的な処理を実現しました。"
-  },
+  { file:"claudeC初級.png",   label:"Claude Code 基本操作",      cat:"Webサイト",
+    summary:"Claude Code CLI を使ったファイル操作・コマンド実行の基礎を実践。AIとの対話を通じてコードを生成・修正するワークフローを確立しました。",
+    tools:"Claude Code, PowerShell",
+    point:"指示の粒度を調整し、AIが最適な出力を返せるようプロンプトを洗練させました。" },
+  { file:"初級モード.png",    label:"開発環境構築",               cat:"Webサイト",
+    summary:"Claude Code の初期設定から作業環境の整備まで、快適なAI開発フローを構築しました。",
+    tools:"Claude Code, Git",
+    point:"再現性のある環境設定にすることで、次のプロジェクトへの展開をスムーズにしました。" },
+  { file:"C中級.png",         label:"中級ワークフロー実践",        cat:"自動化",
+    summary:"複数ファイルにまたがる処理や、条件分岐を含む自動化を実現しました。",
+    tools:"Claude Code, Python",
+    point:"タスクを細かく分解してAIに渡すことで、精度と再現性を大幅に向上させました。" },
+  { file:"C中級1.png",        label:"繰り返し作業の自動化①",       cat:"自動化",
+    summary:"繰り返し作業を自動化するワークフローを設計。作業時間の大幅な短縮を実現しました。",
+    tools:"Claude Code, Bash",
+    point:"処理の流れを整理してから実装することで、手戻りなくスムーズに完成しました。" },
+  { file:"C中級①.png",       label:"繰り返し作業の自動化②",       cat:"自動化",
+    summary:"エラーハンドリングと出力品質の改善に取り組み、より堅牢な自動化を実現しました。",
+    tools:"Claude Code, Python",
+    point:"失敗ケースを事前に想定し、堅牢な処理フローを設計しました。" },
+  { file:"C上級①.png",       label:"自動化パイプライン構築①",      cat:"自動化",
+    summary:"複数コンポーネントを組み合わせた高度な自動化パイプラインを構築しました。",
+    tools:"Claude Code, Python, pytest",
+    point:"各コンポーネントを独立してテストし、統合時のリスクを最小化しました。" },
+  { file:"C上級②.png",       label:"自動化パイプライン構築②",      cat:"自動化",
+    summary:"より多くのユースケースに対応できる汎用性の高いシステムへ進化させました。",
+    tools:"Claude Code, Python",
+    point:"抽象化レイヤーを設けることで、変更に強い設計を実現しました。" },
+  { file:"C上級③.png",       label:"自動化パイプライン構築③",      cat:"自動化",
+    summary:"パフォーマンス最適化とドキュメント整備を行い、プロダクション品質に仕上げました。",
+    tools:"Claude Code, Python, Git",
+    point:"自動テストを整備し、継続的に改善できる体制を整えました。" },
+  { file:"上級①.png",        label:"高度プロンプト設計①",          cat:"自動化",
+    summary:"AIが正確に処理できる構造化されたプロンプト設計を行いました。",
+    tools:"Claude Code",
+    point:"要件をツリー構造で整理し、AIへの指示を階層的に構成しました。" },
+  { file:"上級②.png",        label:"高度プロンプト設計②",          cat:"自動化",
+    summary:"複数のサブタスクを連鎖させた処理フローを設計し、複雑な目標を自動達成するシステムを構築しました。",
+    tools:"Claude Code, Bash",
+    point:"各ステップの出力を次の入力に自動接続することで、シームレスな処理を実現しました。" },
+  { file:"上級③.png",        label:"高度プロンプト設計③",          cat:"自動化",
+    summary:"これまでの知見を集約し、最も効率的かつ高品質な成果物を生み出すフローを確立しました。",
+    tools:"Claude Code, Python, pytest",
+    point:"品質チェックポイントを各段階に設け、最終成果物の信頼性を高めました。" },
+  { file:"課題並列.png",      label:"並列エージェント処理",          cat:"自動化",
+    summary:"複数のAIエージェントを並列で実行し、処理時間を大幅に短縮する手法を実践しました。",
+    tools:"Claude Code, SubAgent",
+    point:"タスクの依存関係を分析し、並列実行可能な部分を最大化することで効率を追求しました。" },
+  { file:"課題分離.png",      label:"タスク分離設計",               cat:"自動化",
+    summary:"大きなタスクを適切な粒度に分解し、各エージェントが最大のパフォーマンスを発揮できる設計を実現しました。",
+    tools:"Claude Code, SubAgent",
+    point:"関心の分離原則をAI設計に応用し、保守性と拡張性を両立しました。" },
+  { file:"subA1.png",         label:"SubAgent 設計①",             cat:"SubAgent",
+    summary:"専門化されたSubAgentを設計し、特定の役割に特化した高精度なAI処理を実現しました。",
+    tools:"Claude Code, SubAgent",
+    point:"役割を明確に定義することで、各SubAgentの出力品質が向上しました。" },
+  { file:"subA2.png",         label:"SubAgent 設計②",             cat:"SubAgent",
+    summary:"複数のSubAgentが連携して一つの目標を達成する、オーケストレーション設計を実践しました。",
+    tools:"Claude Code, SubAgent",
+    point:"Agent間の情報受け渡しを設計し、スムーズな連携を実現しました。" },
+  { file:"subA3.png",         label:"SubAgent 設計③",             cat:"SubAgent",
+    summary:"エラー発生時の再試行・フォールバック処理を備えた、堅牢なSubAgentシステムを構築しました。",
+    tools:"Claude Code, SubAgent, Python",
+    point:"異常系のハンドリングを組み込むことで、安定動作するシステムにしました。" },
+  { file:"subA4.png",         label:"SubAgent 設計④",             cat:"SubAgent",
+    summary:"複雑なビジネスロジックを処理するマルチエージェントシステムを実現しました。",
+    tools:"Claude Code, SubAgent, Python",
+    point:"設計パターンを標準化し、再利用性の高いSubAgentライブラリを構築しました。" },
+  { file:"サイドチャット.png", label:"サイドチャット活用",           cat:"SubAgent",
+    summary:"メイン処理と並行してサイドチャネルで情報を収集・処理するアーキテクチャを設計しました。",
+    tools:"Claude Code, SubAgent",
+    point:"非同期処理の設計により、ユーザー体験を損なわずに高度な処理を実現しました。" },
+  { file:"ペイン.png",         label:"マルチペイン設計",             cat:"SubAgent",
+    summary:"複数のペインで並行して異なるタスクを処理する、効率的な作業環境を構築しました。",
+    tools:"Claude Code, SubAgent",
+    point:"視覚的な情報整理と処理の並列化を組み合わせ、生産性を最大化しました。" },
+  { file:"skills初級.png",    label:"カスタムSkills作成 — 基礎",   cat:"Skills",
+    summary:"Claude CodeのカスタムSkillsを初めて作成。繰り返し使うコマンドをスキルとして定義し、作業を効率化しました。",
+    tools:"Claude Code, Skills",
+    point:"よく使うパターンをスキル化することで、作業速度と一貫性が格段に向上しました。" },
+  { file:"skills中級.png",    label:"カスタムSkills作成 — 応用",   cat:"Skills",
+    summary:"条件分岐や変数を活用した高度なSkillsを実装しました。",
+    tools:"Claude Code, Skills",
+    point:"スキルのパラメータ化により、多様なシチュエーションに対応できる汎用スキルを作成しました。" },
+  { file:"skills上級①.png",  label:"Skills 上級設計①",           cat:"Skills",
+    summary:"複数のSkillsを連鎖させた高度なワークフロー自動化を実現しました。",
+    tools:"Claude Code, Skills, Python",
+    point:"スキルのモジュール化により、組み合わせで多彩なバリエーションを生み出せる設計にしました。" },
+  { file:"skills上級②.png",  label:"Skills 上級設計②",           cat:"Skills",
+    summary:"外部APIと連携するSkillsを設計し、AIの機能をリアルタイムデータで強化しました。",
+    tools:"Claude Code, Skills, MCP",
+    point:"APIのレスポンスを動的にSkillsに組み込む設計で、常に最新情報を活用できるようにしました。" },
+  { file:"skills上級③.png",  label:"Skills 上級設計③",           cat:"Skills",
+    summary:"再利用性を重視したSkillsライブラリを構築しました。",
+    tools:"Claude Code, Skills, Git",
+    point:"Skillsの仕様をドキュメント化し、他者が迷わず使えるライブラリとして整備しました。" },
+  { file:"skills上級④.png",  label:"Skills 上級設計④",           cat:"Skills",
+    summary:"パフォーマンステストを組み込んだSkillsを設計し、品質担保のプロセスを自動化しました。",
+    tools:"Claude Code, Skills, pytest",
+    point:"テスト駆動でSkillsを開発するアプローチにより、高品質な成果物を効率的に実現しました。" },
+  { file:"スキル①.png",       label:"カスタムスキル開発①",          cat:"Skills",
+    summary:"日常的な開発作業を自動化するカスタムスキルを設計・実装しました。",
+    tools:"Claude Code, Skills",
+    point:"使用頻度の高い作業を分析し、最もインパクトの大きい部分から自動化を進めました。" },
+  { file:"スキル②.png",       label:"カスタムスキル開発②",          cat:"Skills",
+    summary:"コードレビューを自動化するスキルを作成。AIが品質基準でコードをチェックする仕組みを構築しました。",
+    tools:"Claude Code, Skills",
+    point:"レビュー観点をスキルに組み込むことで、均一な品質チェックを自動化しました。" },
+  { file:"スキル③.png",       label:"カスタムスキル開発③",          cat:"Skills",
+    summary:"ドキュメント生成を自動化するスキルを開発しました。",
+    tools:"Claude Code, Skills, Python",
+    point:"テンプレートを設計し、一貫性のあるドキュメントが自動生成される仕組みを構築しました。" },
+  { file:"スキル上級①.png",   label:"上級カスタムスキル①",          cat:"Skills",
+    summary:"複数のスキルを組み合わせた統合ワークフローを設計。プロジェクト全体の自動化を実現しました。",
+    tools:"Claude Code, Skills, Python, Git",
+    point:"スキルの依存関係を管理し、正しい順序で実行される仕組みを設計しました。" },
+  { file:"スキル上級②.png",   label:"上級カスタムスキル②",          cat:"Skills",
+    summary:"AI の推論能力を最大限に引き出す高度なスキル設計の集大成として、複雑なロジックを自動化しました。",
+    tools:"Claude Code, Skills, Python, MCP",
+    point:"スキルの組み合わせ方に創意工夫を凝らし、単純な自動化を超えた知的な処理を実現しました。" },
 ];
 
-/* ── RENDER CARDS ── */
+/* ──────────────────────────────
+   RENDER CARDS
+────────────────────────────── */
 const grid = document.getElementById('card-grid');
-const tagLabelMap = { 初級:'Starter', 中級:'Standard', 上級:'Advanced', SubAgent:'SubAgent', Skills:'Skills' };
 
 function render(filter) {
-  const filtered = filter === 'all' ? items : items.filter(i => i.tag === filter);
+  const filtered = filter === 'all' ? items : items.filter(i => i.cat === filter);
   grid.innerHTML = filtered.map((item, i) => `
-    <div class="pcard" data-idx="${items.indexOf(item)}" style="animation-delay:${i * 35}ms">
+    <div class="pcard" data-idx="${items.indexOf(item)}" style="animation-delay:${i*40}ms">
       <div class="pcard-img">
         <img src="image/${encodeURIComponent(item.file)}" alt="${item.label}" loading="lazy">
-        <div class="pcard-overlay"><span class="overlay-text">View Project</span></div>
-        <span class="pcard-tag">${tagLabelMap[item.tag] || item.tag}</span>
+        <div class="pcard-overlay"><span class="overlay-text">詳細を見る</span></div>
+        <span class="pcard-cat">${item.cat}</span>
       </div>
       <div class="pcard-body">
         <div class="pcard-title">${item.label}</div>
-        <p class="pcard-summary">${item.summary.slice(0, 60)}...</p>
-        <div class="pcard-meta">
-          <div class="meta-row">
-            <span class="meta-label">Tool</span>
-            <div class="tool-chips">${item.tools.split(',').map(t => `<span class="chip">${t.trim()}</span>`).join('')}</div>
-          </div>
+        <p class="pcard-summary">${item.summary}</p>
+        <div class="pcard-tags">${item.tools.split(',').map(t=>`<span class="tag-chip">${t.trim()}</span>`).join('')}</div>
+        <div class="pcard-footer">
+          <button class="detail-btn">詳細を見る →</button>
         </div>
       </div>
     </div>
   `).join('');
 
   grid.querySelectorAll('.pcard').forEach((c, idx) => {
-    setTimeout(() => c.classList.add('show'), idx * 35);
-    c.addEventListener('click', () => openModal(parseInt(c.dataset.idx)));
+    setTimeout(() => c.classList.add('show'), idx * 40);
+    const open = () => openModal(parseInt(c.dataset.idx));
+    c.querySelector('.pcard-img').addEventListener('click', open);
+    c.querySelector('.detail-btn').addEventListener('click', open);
   });
 }
 
-/* ── MODAL ── */
+/* ──────────────────────────────
+   MODAL
+────────────────────────────── */
 const modal = document.getElementById('modal');
 function openModal(idx) {
-  const item = items[idx];
-  document.getElementById('modal-img').src = `image/${encodeURIComponent(item.file)}`;
-  document.getElementById('modal-img').alt = item.label;
-  document.getElementById('modal-tag').textContent = tagLabelMap[item.tag] || item.tag;
-  document.getElementById('modal-title').textContent = item.label;
-  document.getElementById('modal-summary').textContent = item.summary;
-  document.getElementById('modal-tools').textContent = item.tools;
-  document.getElementById('modal-point').textContent = item.point;
+  const d = items[idx];
+  document.getElementById('modal-img').src   = `image/${encodeURIComponent(d.file)}`;
+  document.getElementById('modal-img').alt   = d.label;
+  document.getElementById('modal-cat').textContent   = d.cat;
+  document.getElementById('modal-title').textContent = d.label;
+  document.getElementById('modal-summary').textContent = d.summary;
+  document.getElementById('modal-tools').textContent   = d.tools;
+  document.getElementById('modal-point').textContent   = d.point;
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -885,7 +949,9 @@ document.getElementById('modal-close').onclick = closeModal;
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-/* ── FILTER ── */
+/* ──────────────────────────────
+   FILTER
+────────────────────────────── */
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -894,20 +960,68 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-/* ── HAMBURGER ── */
+/* ──────────────────────────────
+   HAMBURGER
+────────────────────────────── */
 const ham = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
 ham.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
-/* ── INTERSECTION OBSERVER ── */
-const observer = new IntersectionObserver(entries => {
+/* ──────────────────────────────
+   DARK MODE
+────────────────────────────── */
+const toggle = document.getElementById('theme-toggle');
+const saved = localStorage.getItem('theme') || 'light';
+if (saved === 'dark') {
+  document.documentElement.setAttribute('data-theme','dark');
+  toggle.textContent = '☀️';
+}
+toggle.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  toggle.textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+});
+
+/* ──────────────────────────────
+   SCROLL ANIMATIONS
+────────────────────────────── */
+const animObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    if (e.isIntersecting) {
+      e.target.classList.add('anim-visible');
+      animObs.unobserve(e.target);
+    }
   });
 }, { threshold: 0.1 });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+document.querySelectorAll('.anim-fade-up, .anim-fade-in, .anim-scale-in').forEach(el => animObs.observe(el));
 
+/* Hero items visible immediately on load */
+window.addEventListener('load', () => {
+  document.querySelectorAll('#hero .anim-fade-up, #hero .anim-fade-in').forEach(el => {
+    el.classList.add('anim-visible');
+  });
+});
+
+/* ──────────────────────────────
+   SKILL BARS (animate on scroll)
+────────────────────────────── */
+const barObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.skill-bar').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skills-list').forEach(el => barObs.observe(el));
+
+/* ──────────────────────────────
+   INIT
+────────────────────────────── */
 render('all');
 </script>
 </body>
