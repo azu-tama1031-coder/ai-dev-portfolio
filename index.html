@@ -9,6 +9,9 @@
   <meta name="description" content="Claude Codeを中心にAIツールを活用し、Webサイト制作・自動化ツール・業務改善を手がけるAI Web Creatorのポートフォリオです。">
   <meta name="author" content="Bloom with AI">
 
+  <!-- Canonical -->
+  <link rel="canonical" href="https://azu-tama1031-coder.github.io/ai-dev-portfolio/">
+
   <!-- OGP -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Bloom with AI — AI Web Creator Portfolio">
@@ -16,8 +19,26 @@
   <meta property="og:image" content="https://azu-tama1031-coder.github.io/ai-dev-portfolio/image/subA1.png">
   <meta property="og:url" content="https://azu-tama1031-coder.github.io/ai-dev-portfolio/">
 
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bloom with AI — AI Web Creator Portfolio">
+  <meta name="twitter:description" content="Claude Codeを中心にAIツールを活用し、Webサイト制作・自動化ツール・業務改善を手がけるAI Web Creatorのポートフォリオです。">
+  <meta name="twitter:image" content="https://azu-tama1031-coder.github.io/ai-dev-portfolio/image/subA1.png">
+
   <!-- Favicon (SVG inline) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%232d4a3e'/><text y='24' x='4' font-size='22'>🌿</text></svg>">
+
+  <!-- [Q-7] FOUC防止: DOMContentLoaded より前にテーマを確定する -->
+  <script>
+  (function () {
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    /* [A-9] OSのダークモード設定を初期値として利用 */
+    if (stored === 'dark' || (!stored && prefersDark)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -160,6 +181,9 @@
   ════════════════════════════════ */
   #hero {
     min-height:100svh;
+    /* svh フォールバック */
+    min-height:100vh;
+    min-height:100svh;
     display:grid;
     grid-template-columns: 1fr 1fr;
     align-items:center;
@@ -267,7 +291,7 @@
     font-size:clamp(22px,3vw,32px); font-weight:600; color:var(--green);
     opacity:0.7; letter-spacing:2px;
   }
-  .deco-sub { font-size:10px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; }
+  .deco-sub { font-size:10px; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-top:8px; }
   @keyframes rotateSlow { to { transform:rotate(360deg); } }
 
   .scroll-line {
@@ -334,6 +358,12 @@
     display:flex; flex-direction:column;
     transition:box-shadow 0.35s, transform 0.35s, border-color 0.3s;
   }
+  /* [A-3] キーボードフォーカス時の視覚フィードバック */
+  .pcard:focus-visible {
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+    box-shadow:var(--shadow-lg);
+  }
   .pcard:hover {
     box-shadow:var(--shadow-lg);
     transform:translateY(-8px);
@@ -351,8 +381,14 @@
     display:flex; align-items:center; justify-content:center;
     opacity:0; transition:opacity 0.35s;
   }
-  .pcard:hover .pcard-overlay { opacity:1; }
+  .pcard:hover .pcard-overlay,
+  .pcard:focus-visible .pcard-overlay { opacity:1; }
   .overlay-text { color:var(--ivory); font-size:12px; letter-spacing:2px; text-transform:uppercase; }
+  /* [Q-5] 画像読み込み失敗時のプレースホルダー */
+  .pcard-img img.img-error {
+    opacity:0.25;
+    background:var(--green-pale);
+  }
   .pcard-cat {
     position:absolute; top:14px; left:14px;
     font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase;
@@ -382,7 +418,8 @@
     color:var(--gold); font-weight:500;
     border-bottom:1px solid rgba(184,151,90,0.4);
     transition:color 0.2s, border-color 0.2s;
-    text-decoration:none; cursor:pointer; background:none; border-left:none; border-top:none; border-right:none; padding:0;
+    text-decoration:none; cursor:pointer;
+    background:none; border-left:none; border-top:none; border-right:none; padding:0;
     font-family:'Noto Sans JP',sans-serif;
   }
   .detail-btn:hover { color:var(--green); border-bottom-color:var(--green); }
@@ -430,6 +467,7 @@
     transition:background 0.2s; z-index:1;
   }
   .modal-close:hover { background:var(--green-pale); }
+  .modal-close:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
 
   /* ════════════════════════════════
      ABOUT
@@ -546,6 +584,19 @@
   .pcard { opacity:0; transform:translateY(24px); }
   .pcard.show { animation:cardIn 0.5s ease forwards; }
   @keyframes cardIn { to { opacity:1; transform:none; } }
+
+  /* ════════════════════════════════
+     [A-8] prefers-reduced-motion
+  ════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .skill-bar { transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
   </style>
 </head>
 <body>
@@ -557,14 +608,18 @@
     <div class="logo-sub">AI Web Creator</div>
   </div>
   <div class="nav-right">
-    <ul class="nav-links" id="nav-links">
+    <!-- [A-5] aria-expanded をJSで制御 -->
+    <ul class="nav-links" id="nav-links" role="list">
       <li><a href="#projects">Projects</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button id="theme-toggle" aria-label="ダークモード切替">🌙</button>
-    <button class="hamburger" id="hamburger" aria-label="メニュー">
+    <button class="hamburger" id="hamburger"
+            aria-label="メニュー"
+            aria-expanded="false"
+            aria-controls="nav-links">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -582,7 +637,7 @@
       <a href="https://github.com/azu-tama1031-coder" target="_blank" rel="noopener" class="btn-ghost">GitHubを見る</a>
     </div>
   </div>
-  <div class="hero-deco anim-fade-in delay-2">
+  <div class="hero-deco anim-fade-in delay-2" aria-hidden="true">
     <div class="hero-deco-inner">
       <div class="deco-circle deco-c1"></div>
       <div class="deco-circle deco-c2"></div>
@@ -590,11 +645,11 @@
       <div class="deco-dots"></div>
       <div class="deco-text">
         <div class="deco-label">Bloom<br>with AI</div>
-        <div class="deco-sub" style="margin-top:8px">Web Creator</div>
+        <div class="deco-sub">Web Creator</div>
       </div>
     </div>
   </div>
-  <div class="scroll-line">scroll</div>
+  <div class="scroll-line" aria-hidden="true">scroll</div>
 </section>
 
 <!-- ══════════ PROJECTS ══════════ -->
@@ -605,14 +660,15 @@
       <h2>制作実績</h2>
       <p class="section-desc">AIを活用して制作・構築したプロジェクトをご紹介します。カードをクリックすると詳細を確認できます。</p>
     </div>
-    <div class="filter-bar anim-fade-up delay-1">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="Webサイト">Webサイト</button>
-      <button class="filter-btn" data-filter="自動化">自動化</button>
-      <button class="filter-btn" data-filter="Skills">Skills</button>
-      <button class="filter-btn" data-filter="SubAgent">SubAgent</button>
+    <!-- [A-4] role="group" + aria-label でフィルター群を明示 -->
+    <div class="filter-bar anim-fade-up delay-1" role="group" aria-label="カテゴリフィルター">
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" data-filter="Webサイト" aria-pressed="false">Webサイト</button>
+      <button class="filter-btn" data-filter="自動化" aria-pressed="false">自動化</button>
+      <button class="filter-btn" data-filter="Skills" aria-pressed="false">Skills</button>
+      <button class="filter-btn" data-filter="SubAgent" aria-pressed="false">SubAgent</button>
     </div>
-    <div class="cards-grid" id="card-grid"></div>
+    <div class="cards-grid" id="card-grid" aria-live="polite" aria-label="プロジェクト一覧"></div>
   </div>
 </section>
 
@@ -666,44 +722,65 @@
   <div class="section-inner">
     <div class="section-header anim-fade-up">
       <div class="section-eyebrow" style="color:var(--gold-light)">Skills</div>
-      <h2>スキル & ツール</h2>
+      <h2>スキル &amp; ツール</h2>
       <p class="section-desc">AIツールと技術を組み合わせ、アイデアを形にします。</p>
     </div>
+    <!-- [A-6] role="progressbar" + aria 属性でスクリーンリーダー対応 -->
     <div class="skills-list anim-fade-up delay-1">
       <div class="skill-row">
         <div class="skill-meta">
           <span class="skill-name">Claude Code</span>
-          <span class="skill-pct">95%</span>
+          <span class="skill-pct" aria-hidden="true">95%</span>
         </div>
-        <div class="skill-track"><div class="skill-bar" data-width="95"></div></div>
+        <div class="skill-track">
+          <div class="skill-bar" data-width="95"
+               role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"
+               aria-label="Claude Code スキルレベル 95%"></div>
+        </div>
       </div>
       <div class="skill-row">
         <div class="skill-meta">
           <span class="skill-name">AI 活用設計</span>
-          <span class="skill-pct">90%</span>
+          <span class="skill-pct" aria-hidden="true">90%</span>
         </div>
-        <div class="skill-track"><div class="skill-bar" data-width="90"></div></div>
+        <div class="skill-track">
+          <div class="skill-bar" data-width="90"
+               role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"
+               aria-label="AI 活用設計 スキルレベル 90%"></div>
+        </div>
       </div>
       <div class="skill-row">
         <div class="skill-meta">
           <span class="skill-name">HTML / CSS</span>
-          <span class="skill-pct">90%</span>
+          <span class="skill-pct" aria-hidden="true">90%</span>
         </div>
-        <div class="skill-track"><div class="skill-bar" data-width="90"></div></div>
+        <div class="skill-track">
+          <div class="skill-bar" data-width="90"
+               role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"
+               aria-label="HTML / CSS スキルレベル 90%"></div>
+        </div>
       </div>
       <div class="skill-row">
         <div class="skill-meta">
           <span class="skill-name">Git / GitHub</span>
-          <span class="skill-pct">80%</span>
+          <span class="skill-pct" aria-hidden="true">80%</span>
         </div>
-        <div class="skill-track"><div class="skill-bar" data-width="80"></div></div>
+        <div class="skill-track">
+          <div class="skill-bar" data-width="80"
+               role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
+               aria-label="Git / GitHub スキルレベル 80%"></div>
+        </div>
       </div>
       <div class="skill-row">
         <div class="skill-meta">
           <span class="skill-name">JavaScript</span>
-          <span class="skill-pct">75%</span>
+          <span class="skill-pct" aria-hidden="true">75%</span>
         </div>
-        <div class="skill-track"><div class="skill-bar" data-width="75"></div></div>
+        <div class="skill-track">
+          <div class="skill-bar" data-width="75"
+               role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+               aria-label="JavaScript スキルレベル 75%"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -745,7 +822,9 @@
 </footer>
 
 <!-- ══════════ MODAL ══════════ -->
-<div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+<!-- [A-2] aria-labelledby でタイトル要素を参照 -->
+<div class="modal-overlay" id="modal"
+     role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-box" id="modal-box">
     <button class="modal-close" id="modal-close" aria-label="閉じる">✕</button>
     <div class="modal-img-wrap"><img id="modal-img" src="" alt=""></div>
@@ -893,90 +972,174 @@ const items = [
 ];
 
 /* ──────────────────────────────
+   [S-1/S-2] XSS対策: HTML エスケープ
+────────────────────────────── */
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ──────────────────────────────
+   [Q-1] モーダルDOM要素キャッシュ
+────────────────────────────── */
+const modal      = document.getElementById('modal');
+const modalImg   = document.getElementById('modal-img');
+const modalCat   = document.getElementById('modal-cat');
+const modalTitle = document.getElementById('modal-title');
+const modalSum   = document.getElementById('modal-summary');
+const modalTools = document.getElementById('modal-tools');
+const modalPoint = document.getElementById('modal-point');
+const grid       = document.getElementById('card-grid');
+
+/* ──────────────────────────────
    RENDER CARDS
 ────────────────────────────── */
-const grid = document.getElementById('card-grid');
-
 function render(filter) {
-  const filtered = filter === 'all' ? items : items.filter(i => i.cat === filter);
-  grid.innerHTML = filtered.map((item, i) => `
-    <div class="pcard" data-idx="${items.indexOf(item)}" style="animation-delay:${i*40}ms">
+  /* [Q-2] items.indexOf を使わず元インデックスを保持 */
+  const filtered = items.reduce((acc, item, idx) => {
+    if (filter === 'all' || item.cat === filter) acc.push({ item, idx });
+    return acc;
+  }, []);
+
+  grid.innerHTML = filtered.map(({ item, idx }, i) => `
+    <div class="pcard" data-idx="${idx}"
+         style="animation-delay:${i * 40}ms"
+         tabindex="0" role="article"
+         aria-label="${escHtml(item.label)}">
       <div class="pcard-img">
-        <img src="image/${encodeURIComponent(item.file)}" alt="${item.label}" loading="lazy">
-        <div class="pcard-overlay"><span class="overlay-text">詳細を見る</span></div>
-        <span class="pcard-cat">${item.cat}</span>
+        <img src="image/${encodeURIComponent(item.file)}"
+             alt="${escHtml(item.label)}"
+             loading="lazy">
+        <div class="pcard-overlay" aria-hidden="true">
+          <span class="overlay-text">詳細を見る</span>
+        </div>
+        <span class="pcard-cat">${escHtml(item.cat)}</span>
       </div>
       <div class="pcard-body">
-        <div class="pcard-title">${item.label}</div>
-        <p class="pcard-summary">${item.summary}</p>
-        <div class="pcard-tags">${item.tools.split(',').map(t=>`<span class="tag-chip">${t.trim()}</span>`).join('')}</div>
+        <div class="pcard-title">${escHtml(item.label)}</div>
+        <p class="pcard-summary">${escHtml(item.summary)}</p>
+        <div class="pcard-tags">${item.tools.split(',').map(t => `<span class="tag-chip">${escHtml(t.trim())}</span>`).join('')}</div>
         <div class="pcard-footer">
-          <button class="detail-btn">詳細を見る →</button>
+          <button class="detail-btn" aria-label="${escHtml(item.label)}の詳細を見る">詳細を見る →</button>
         </div>
       </div>
     </div>
   `).join('');
 
-  grid.querySelectorAll('.pcard').forEach((c, idx) => {
-    setTimeout(() => c.classList.add('show'), idx * 40);
-    const open = () => openModal(parseInt(c.dataset.idx));
-    c.querySelector('.pcard-img').addEventListener('click', open);
-    c.querySelector('.detail-btn').addEventListener('click', open);
+  grid.querySelectorAll('.pcard').forEach((card, i) => {
+    /* [Q-5] 画像読み込みエラー処理 */
+    const img = card.querySelector('img');
+    img.addEventListener('error', () => img.classList.add('img-error'), { once: true });
+
+    setTimeout(() => card.classList.add('show'), i * 40);
+
+    const open = () => openModal(parseInt(card.dataset.idx, 10));
+    /* [A-3] キーボード操作対応 */
+    card.querySelector('.pcard-img').addEventListener('click', open);
+    card.querySelector('.detail-btn').addEventListener('click', open);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
   });
 }
 
 /* ──────────────────────────────
-   MODAL
+   MODAL + [A-1] フォーカストラップ
 ────────────────────────────── */
-const modal = document.getElementById('modal');
+function getFocusableInModal() {
+  return [...modal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  )];
+}
+
+function trapFocus(e) {
+  if (e.key !== 'Tab') return;
+  const focusable = getFocusableInModal();
+  const first = focusable[0];
+  const last  = focusable[focusable.length - 1];
+  if (e.shiftKey) {
+    if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+  } else {
+    if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+  }
+}
+
+/* モーダルを開く前にフォーカスを記憶し、閉じたら戻す */
+let lastFocused = null;
+
 function openModal(idx) {
   const d = items[idx];
-  document.getElementById('modal-img').src   = `image/${encodeURIComponent(d.file)}`;
-  document.getElementById('modal-img').alt   = d.label;
-  document.getElementById('modal-cat').textContent   = d.cat;
-  document.getElementById('modal-title').textContent = d.label;
-  document.getElementById('modal-summary').textContent = d.summary;
-  document.getElementById('modal-tools').textContent   = d.tools;
-  document.getElementById('modal-point').textContent   = d.point;
+  modalImg.src              = `image/${encodeURIComponent(d.file)}`;
+  modalImg.alt              = d.label;
+  modalCat.textContent      = d.cat;
+  modalTitle.textContent    = d.label;
+  modalSum.textContent      = d.summary;
+  modalTools.textContent    = d.tools;
+  modalPoint.textContent    = d.point;
+
+  lastFocused = document.activeElement;
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  modal.addEventListener('keydown', trapFocus);
+  /* フォーカスを閉じるボタンへ移動 */
+  document.getElementById('modal-close').focus();
 }
+
 function closeModal() {
   modal.classList.remove('open');
   document.body.style.overflow = '';
+  modal.removeEventListener('keydown', trapFocus);
+  /* フォーカスをモーダルを開いた要素へ戻す */
+  if (lastFocused) lastFocused.focus();
 }
+
 document.getElementById('modal-close').onclick = closeModal;
 modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 /* ──────────────────────────────
-   FILTER
+   FILTER + [A-4] aria-pressed
 ────────────────────────────── */
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     render(btn.dataset.filter);
   });
 });
 
 /* ──────────────────────────────
-   HAMBURGER
+   HAMBURGER + [A-5] aria-expanded
 ────────────────────────────── */
-const ham = document.getElementById('hamburger');
+const ham      = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
-ham.addEventListener('click', () => navLinks.classList.toggle('open'));
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+ham.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  ham.setAttribute('aria-expanded', String(isOpen));
+});
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    ham.setAttribute('aria-expanded', 'false');
+  });
+});
 
 /* ──────────────────────────────
-   DARK MODE
+   DARK MODE + [A-9] prefers-color-scheme
 ────────────────────────────── */
 const toggle = document.getElementById('theme-toggle');
-const saved = localStorage.getItem('theme') || 'light';
-if (saved === 'dark') {
-  document.documentElement.setAttribute('data-theme','dark');
-  toggle.textContent = '☀️';
-}
+/* 初期表示はhead内スクリプトで確定済み。トグルボタンの絵文字だけ合わせる */
+const currentTheme = document.documentElement.getAttribute('data-theme');
+if (currentTheme === 'dark') toggle.textContent = '☀️';
+
 toggle.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
