@@ -28,6 +28,10 @@
   <!-- Favicon (SVG inline) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%232d4a3e'/><text y='24' x='4' font-size='22'>🌿</text></svg>">
 
+  <!-- CSP: インラインスクリプト・スタイルを許可しつつ外部リソースを制限 -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; script-src 'self' 'unsafe-inline';">
+
   <!-- [Q-7] FOUC防止: DOMContentLoaded より前にテーマを確定する -->
   <script>
   (function () {
@@ -180,10 +184,8 @@
      HERO
   ════════════════════════════════ */
   #hero {
-    min-height:100svh;
-    /* svh フォールバック */
-    min-height:100vh;
-    min-height:100svh;
+    min-height:100vh;    /* 古いブラウザ向けフォールバック */
+    min-height:100svh;   /* svh 対応ブラウザで上書き */
     display:grid;
     grid-template-columns: 1fr 1fr;
     align-items:center;
@@ -239,6 +241,7 @@
     transition:background 0.3s, box-shadow 0.3s, transform 0.2s;
   }
   .btn-primary:hover { background:var(--green-mid); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .btn-primary:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
   .btn-ghost {
     display:inline-block; border:1px solid var(--border-h);
     color:var(--green); font-size:12px; font-weight:400;
@@ -247,6 +250,7 @@
     transition:all 0.3s;
   }
   .btn-ghost:hover { background:var(--green-pale); border-color:var(--green); transform:translateY(-2px); }
+  .btn-ghost:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
 
   /* Hero decoration */
   .hero-deco {
@@ -343,6 +347,7 @@
   }
   .filter-btn.active { background:var(--green); border-color:var(--green); color:var(--ivory); }
   .filter-btn:hover:not(.active) { border-color:var(--green); color:var(--green); background:var(--green-pale); }
+  .filter-btn:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
 
   .cards-grid {
     display:grid;
@@ -439,6 +444,7 @@
     background:var(--surface);
     max-width:900px; width:100%;
     max-height:90vh; overflow-y:auto;
+    overscroll-behavior: contain;
     display:flex; flex-direction:column;
     position:relative;
     animation:modalIn 0.3s ease;
@@ -536,6 +542,7 @@
   }
   .contact-btn.primary { background:var(--green); color:var(--ivory); }
   .contact-btn.primary:hover { background:var(--green-mid); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .contact-btn:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
 
   /* ════════════════════════════════
      FOOTER
@@ -588,6 +595,18 @@
   /* ════════════════════════════════
      [A-8] prefers-reduced-motion
   ════════════════════════════════ */
+  /* ════════════════════════════════
+     SKIP LINK (H-2)
+  ════════════════════════════════ */
+  .skip-link {
+    position:absolute; top:-100%; left:16px;
+    background:var(--green); color:var(--ivory);
+    font-size:13px; font-weight:500; letter-spacing:1px;
+    padding:10px 20px; text-decoration:none; z-index:9999;
+    transition:top 0.2s;
+  }
+  .skip-link:focus { top:8px; }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -600,6 +619,9 @@
   </style>
 </head>
 <body>
+
+<!-- スキップリンク: キーボードユーザーがナビをスキップしてメインコンテンツへ飛べる (H-2) -->
+<a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
 
 <!-- ══════════ NAV ══════════ -->
 <nav>
@@ -626,6 +648,7 @@
 </nav>
 
 <!-- ══════════ HERO ══════════ -->
+<main id="main-content">
 <section id="hero">
   <div class="hero-content">
     <div class="hero-eyebrow anim-fade-up">AI Web Creator</div>
@@ -804,6 +827,8 @@
     </div>
   </div>
 </section>
+
+</main><!-- /#main-content -->
 
 <!-- ══════════ FOOTER ══════════ -->
 <footer>
